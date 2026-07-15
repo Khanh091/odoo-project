@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="notification_center.Systray">
+        <Dropdown class="'o_notification_center_systray'" togglerClass="'o_notification_center_toggler'" menuClass="'o_notification_center_dropdown'" beforeOpen.bind="onBeforeOpen">
+            <t t-set-slot="toggler">
+                <span class="o_notification_center_bell" title="Thông báo">
+                    <i class="fa fa-bell" aria-label="Thông báo"/>
+                    <span t-if="hasUnread" class="o_notification_center_badge">
+                        <t t-esc="badgeValue"/>
+                    </span>
+                </span>
+            </t>
+
+            <div class="o_notification_center_header">
+                <span class="fw-semibold">Thông báo</span>
+                <button type="button" class="btn btn-link btn-sm p-0" t-on-click.stop="onMarkAllAsRead" t-att-disabled="!hasUnread">
+                    Đánh dấu tất cả đã đọc
+                </button>
+            </div>
+
+            <div t-if="state.loading" class="o_notification_center_empty">
+                Đang tải...
+            </div>
+
+            <div t-elif="!notifications.length" class="o_notification_center_empty">
+                Không có thông báo
+            </div>
+
+            <t t-else="">
+                <DropdownItem
+                    t-foreach="notifications"
+                    t-as="notification"
+                    t-key="notification.id"
+                    class="'o_notification_center_item ' + (notification.is_read ? 'is-read' : 'is-unread')"
+                    onSelected="() => this.onNotificationSelected(notification)"
+                >
+                    <div class="o_notification_center_item_icon" t-att-title="getTypeLabel(notification)">
+                        <i t-att-class="getIconClass(notification)"/>
+                    </div>
+                    <div class="o_notification_center_item_body">
+                        <div class="o_notification_center_item_title">
+                            <span t-esc="notification.title"/>
+                            <span t-if="!notification.is_read" class="o_notification_center_unread_dot"/>
+                        </div>
+                        <div class="o_notification_center_item_message" t-esc="notification.message"/>
+                        <div class="o_notification_center_item_date" t-esc="notification.create_date"/>
+                    </div>
+                </DropdownItem>
+            </t>
+
+            <div class="o_notification_center_footer">
+                <button type="button" class="btn btn-link btn-sm w-100" t-on-click.stop="onOpenAll">
+                    Xem tất cả
+                </button>
+            </div>
+        </Dropdown>
+    </t>
+</templates>

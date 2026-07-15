@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_vna_support_request_user,vna.support.request user,model_vna_support_request,vna_user_support.group_vna_support_user,1,1,1,0
+access_vna_support_request_agent,vna.support.request agent,model_vna_support_request,vna_user_support.group_vna_support_agent,1,1,1,0
+access_vna_support_request_manager,vna.support.request manager,model_vna_support_request,vna_user_support.group_vna_support_manager,1,1,1,1
+access_vna_support_request_type_user,vna.support.request.type user,model_vna_support_request_type,vna_user_support.group_vna_support_user,1,0,0,0
+access_vna_support_request_type_agent,vna.support.request.type agent,model_vna_support_request_type,vna_user_support.group_vna_support_agent,1,0,0,0
+access_vna_support_request_type_manager,vna.support.request.type manager,model_vna_support_request_type,vna_user_support.group_vna_support_manager,1,1,1,1
+access_vna_support_stage_user,vna.support.stage user,model_vna_support_stage,vna_user_support.group_vna_support_user,1,0,0,0
+access_vna_support_stage_agent,vna.support.stage agent,model_vna_support_stage,vna_user_support.group_vna_support_agent,1,0,0,0
+access_vna_support_stage_manager,vna.support.stage manager,model_vna_support_stage,vna_user_support.group_vna_support_manager,1,1,1,1
+access_vna_support_cancel_wizard_agent,vna.support.cancel.wizard agent,model_vna_support_cancel_wizard,vna_user_support.group_vna_support_agent,1,1,1,1
+access_vna_support_cancel_wizard_manager,vna.support.cancel.wizard manager,model_vna_support_cancel_wizard,vna_user_support.group_vna_support_manager,1,1,1,1
+access_vna_support_team_manager,res.groups vna support manager,base.model_res_groups,vna_user_support.group_vna_support_manager,1,1,1,0

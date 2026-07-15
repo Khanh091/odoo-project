@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_tct_allowed_ip_system,tct.allowed.ip system access,model_tct_allowed_ip,base.group_system,1,1,1,1
+access_tct_allowed_ip_manager,tct.allowed.ip manager access,model_tct_allowed_ip,tct_high_privilege_2fa.group_tct_ip_whitelist_manager,1,1,1,1
+access_res_lang_user,access.res.lang.user,base.model_res_lang,base.group_user,1,0,0,0
+access_res_lang_public_tct,access.res.lang.public.tct,base.model_res_lang,base.group_public,1,0,0,0
+access_res_lang_portal_tct,access.res.lang.portal.tct,base.model_res_lang,base.group_portal,1,0,0,0

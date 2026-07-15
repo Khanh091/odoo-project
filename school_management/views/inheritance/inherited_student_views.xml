@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Kế thừa Form View Học sinh -->
+    <record id="view_school_student_form_inherit" model="ir.ui.view">
+        <field name="name">school.student.form.inherit</field>
+        <field name="model">school.student</field>
+        <field name="inherit_id" ref="school_management.view_school_student_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Thông tin phụ huynh &amp; Bổ sung">
+                    <group>
+                        <group>
+                            <field name="parent_name"/>
+                            <field name="parent_phone"/>    
+                            <field name="emergency_contact"/>
+                        </group>
+                        <group>
+                            <field name="blood_type"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Kế thừa Tree View Học sinh -->
+    <record id="view_school_student_tree_inherit" model="ir.ui.view">
+        <field name="name">school.student.tree.inherit</field>
+        <field name="model">school.student</field>
+        <field name="inherit_id" ref="school_management.view_school_student_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='phone']" position="after">
+                <field name="parent_phone"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Kế thừa Search View Học sinh -->
+    <record id="view_school_student_search_inherit" model="ir.ui.view">
+        <field name="name">school.student.search.inherit</field>
+        <field name="model">school.student</field>
+        <field name="inherit_id" ref="school_management.view_school_student_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <filter string="Có phụ huynh" name="has_parent" domain="[('parent_phone','!=',False)]"/>
+                <separator/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+    <t t-name="tct_file_preview.AttachmentPreviewGallery">
+        <div class="o_tct_attachment_preview_gallery">
+            <div class="o_tct_attachment_gallery_toolbar" t-if="!props.readonly">
+                <FileInput
+                    acceptedFileExtensions="props.acceptedFileExtensions"
+                    multiUpload="true"
+                    onUpload.bind="onFileUploaded"
+                    resModel="props.record.resModel"
+                    resId="props.record.resId or 0"
+                >
+                    <button type="button" class="btn btn-primary">
+                        <i class="fa fa-upload me-1"/>
+                        <t t-esc="uploadText"/>
+                    </button>
+                </FileInput>
+            </div>
+
+            <div class="o_tct_attachment_gallery_grid" t-if="files.length">
+                <t t-foreach="files" t-as="file" t-key="file.id">
+                    <article class="o_tct_attachment_gallery_card" t-att-title="file.name">
+                        <button t-if="!props.readonly"
+                                type="button"
+                                class="o_tct_attachment_gallery_remove"
+                                title="Remove attachment"
+                                t-on-click.stop="() => this.onFileRemove(file.id)">
+                            <i class="fa fa-times"/>
+                        </button>
+
+                        <div class="o_tct_attachment_gallery_visual"
+                             t-on-click="() => file.can_preview &amp;&amp; this.onPreview(file.id)">
+                            <img t-if="getPreviewUrl(file)"
+                                 t-att-src="getPreviewUrl(file)"
+                                 t-att-alt="file.name"/>
+                            <span t-else=""
+                                  class="o_tct_attachment_gallery_file_icon o_image"
+                                  t-att-data-mimetype="file.mimetype"
+                                  t-att-data-ext="getExtension(file)"/>
+                            <span t-if="file.can_preview"
+                                  class="o_tct_attachment_gallery_preview_hint">
+                                <i class="fa fa-eye"/>
+                            </span>
+                        </div>
+
+                        <div class="o_tct_attachment_gallery_info">
+                            <div class="o_tct_attachment_gallery_name text-truncate">
+                                <t t-esc="file.name"/>
+                            </div>
+                            <div class="o_tct_attachment_gallery_meta">
+                                <span><t t-esc="getExtension(file).toUpperCase()"/></span>
+                                <span t-if="file.file_size">
+                                    <t t-esc="formatFileSize(file.file_size)"/>
+                                </span>
+                            </div>
+                            <div class="o_tct_attachment_gallery_actions">
+                                <button t-if="file.can_preview"
+                                        type="button"
+                                        class="btn btn-sm btn-link"
+                                        t-on-click.stop="() => this.onPreview(file.id)">
+                                    <i class="fa fa-eye me-1"/> Preview
+                                </button>
+                                <a class="btn btn-sm btn-link"
+                                   t-att-href="getUrl(file.id)"
+                                   download="">
+                                    <i class="fa fa-download me-1"/> Download
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                </t>
+            </div>
+
+            <div t-else="" class="o_tct_attachment_gallery_empty text-muted">
+                <i class="fa fa-folder-open-o"/>
+                <span>No attachments uploaded.</span>
+            </div>
+        </div>
+    </t>
+</templates>

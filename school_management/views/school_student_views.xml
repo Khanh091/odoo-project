@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_school_student_tree" model="ir.ui.view">
+        <field name="name">school.student.tree</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="student_code"/>
+                <field name="name"/>
+                <field name="class_id"/>
+                <field name="age"/>
+                <field name="gender"/>
+                <field name="status"/>
+                <field name="phone"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_school_student_form" model="ir.ui.view">
+        <field name="name">school.student.form</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar" options="{&quot;size&quot;: [120, 120]}"/>
+                    <div class="oe_title">
+                        <h1><field name="name"/></h1>
+                        <h3><field name="student_code"/></h3>
+                    </div>
+
+                    <notebook>
+                        <page string="Thông tin cá nhân">
+                            <group>
+                                <group>
+                                    <field name="gender"/>
+                                    <field name="birth_date"/>
+                                    <field name="age"/>
+                                </group>
+                                <group>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                    <field name="status"/>
+                                </group>
+                            </group>
+                            <field name="address" colspan="2"/>
+                        </page>
+
+                        <page string="Học tập">
+                            <group>
+                                <field name="class_id"/>
+                                <field name="teacher_id" readonly="1"/>
+                            </group>
+                            <button string="📊 Xem Điểm"
+                                    type="object"
+                                    name="action_open_grades"
+                                    class="btn-primary"/>
+
+                            <!-- Danh sách điểm -->
+                            <field name="grade_ids"
+                                   domain="[('student_id', '=', id)]"
+                                   context="{'default_student_id': id}">
+                                <tree>
+                                    <field name="subject_id"/>
+                                    <field name="midterm_score"/>
+                                    <field name="final_score"/>
+                                    <field name="average_score"/>
+                                    <field name="classification"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Ghi chú">
+                            <field name="note"/>
+                        </page>
+                        <page string="Hồ sơ">
+                            <field name="attachment_ids"
+                                   widget="many2many_binary"
+                                   nolabel="1"/>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_school_student_search" model="ir.ui.view">
+        <field name="name">school.student.search</field>
+        <field name="model">school.student</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="student_code"/>
+                <field name="class_id"/>
+                <field name="status"/>
+
+                <filter string="Đang học" name="studying" domain="[('status','=','studying')]"/>
+                <filter string="Nghỉ học" name="dropped" domain="[('status','=','dropped')]"/>
+                <filter string="Tốt nghiệp" name="graduated" domain="[('status','=','graduated')]"/>
+
+                <group expand="0" string="Group By">
+                    <filter string="Lớp" name="group_class" context="{'group_by':'class_id'}"/>
+                    <filter string="Giới tính" name="group_gender" context="{'group_by':'gender'}"/>
+                    <filter string="Trạng thái" name="group_status" context="{'group_by':'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

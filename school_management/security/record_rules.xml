@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="rule_school_teacher_own_record" model="ir.rule">
+        <field name="name">Giáo viên chỉ xem hồ sơ của mình</field>
+        <field name="model_id" ref="model_school_teacher"/>
+        <field name="groups" eval="[(4, ref('school_management.group_school_teacher'))]"/>
+        <field name="domain_force">[('user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_school_class_by_teacher_user" model="ir.rule">
+        <field name="name">Giáo viên chỉ xem lớp mình dạy</field>
+        <field name="model_id" ref="model_school_class"/>
+        <field name="groups" eval="[(4, ref('school_management.group_school_teacher'))]"/>
+        <field name="domain_force">[('teacher_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_school_student_by_teacher_user" model="ir.rule">
+        <field name="name">Giáo viên chỉ xem học sinh lớp mình dạy</field>
+        <field name="model_id" ref="model_school_student"/>
+        <field name="groups" eval="[(4, ref('school_management.group_school_teacher'))]"/>
+        <field name="domain_force">[('class_id.teacher_id.user_id', '=', user.id)]</field>
+    </record>
+
+    <record id="rule_school_grade_by_teacher_user" model="ir.rule">
+        <field name="name">Giáo viên chỉ xem điểm lớp mình dạy</field>
+        <field name="model_id" ref="model_school_grade"/>
+        <field name="groups" eval="[(4, ref('school_management.group_school_teacher'))]"/>
+        <field name="domain_force">[('class_id.teacher_id.user_id', '=', user.id)]</field>
+    </record>
+
+</odoo>

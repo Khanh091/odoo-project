@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_vna_support_team_tree" model="ir.ui.view">
+        <field name="name">vna.support.team.res.groups.tree</field>
+        <field name="model">res.groups</field>
+        <field name="arch" type="xml">
+            <tree string="Nhóm tiếp nhận">
+                <field name="name"/>
+                <field name="category_id"/>
+                <field name="users" widget="many2many_tags"/>
+                <field name="implied_ids" widget="many2many_tags"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_vna_support_team_form" model="ir.ui.view">
+        <field name="name">vna.support.team.res.groups.form</field>
+        <field name="model">res.groups</field>
+        <field name="arch" type="xml">
+            <form string="Nhóm tiếp nhận">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="category_id" readonly="1"/>
+                        <field name="implied_ids" widget="many2many_tags"/>
+                    </group>
+                    <notebook>
+                        <page string="Thành viên">
+                            <field name="users">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="login"/>
+                                    <field name="email"/>
+                                    <field name="active"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_vna_support_team" model="ir.actions.act_window">
+        <field name="name">Nhóm tiếp nhận</field>
+        <field name="res_model">res.groups</field>
+        <field name="view_mode">tree,form</field>
+        <field name="views" eval="[(ref('view_vna_support_team_tree'), 'tree'), (ref('view_vna_support_team_form'), 'form')]"/>
+        <field name="domain" eval="[('category_id', '=', ref('vna_user_support.module_category_vna_user_support_teams'))]"/>
+        <field name="context" eval="{'default_category_id': ref('vna_user_support.module_category_vna_user_support_teams'), 'default_implied_ids': [(4, ref('vna_user_support.group_vna_support_agent'))]}"/>
+    </record>
+</odoo>

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_school_grade_tree" model="ir.ui.view">
+        <field name="name">school.grade.tree</field>
+        <field name="model">school.grade</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="student_id"/>
+                <field name="class_id" readonly="1"/>
+                <field name="subject_id"/>
+                <field name="midterm_score"/>
+                <field name="final_score"/>
+                <field name="average_score" sum="1"/>
+                <field name="classification"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View - ĐÃ ĐƠN GIẢN HÓA -->
+    <record id="view_school_grade_form" model="ir.ui.view">
+        <field name="name">school.grade.form</field>
+        <field name="model">school.grade</field>
+        <field name="arch" type="xml">
+            <form string="Bảng điểm">
+                <sheet>
+                    <group>
+                        <field name="student_id"
+                               domain="[('status', '=', 'studying')]"
+                               context="{'default_class_id': class_id}"/>
+                        <field name="class_id" readonly="1"/>
+                    </group>
+
+                    <group>
+                        <group>
+                            <!-- Tạm bỏ domain phức tạp -->
+                            <field name="subject_id"/>
+                        </group>
+                        <group>
+                            <field name="midterm_score"/>
+                            <field name="final_score"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="average_score" readonly="1"/>
+                            <field name="classification" readonly="1"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+<!--    search view-->
+    <record id="view_school_grade_search" model="ir.ui.view">
+        <field name="name">school.grade.search</field>
+        <field name="model">school.grade</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="student_id"/>
+                <field name="class_id"/>
+                <field name="subject_id"/>
+
+                <filter string="Theo Lớp" name="by_class" context="{'group_by': 'class_id'}"/>
+                <filter string="Theo Môn" name="by_subject" context="{'group_by': 'subject_id'}"/>
+                <filter string="Theo Học sinh" name="by_student" context="{'group_by': 'student_id'}"/>
+
+                <group expand="0" string="Bộ lọc">
+                    <filter string="Lớp" name="filter_class" domain="[]" context="{'group_by': 'class_id'}"/>
+                    <filter string="Môn" name="filter_subject" domain="[]" context="{'group_by': 'subject_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+</odoo>

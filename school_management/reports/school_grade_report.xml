@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<!--    action bao cao-->
+    <record id="report_school_grade_class_subject" model="ir.actions.report">
+        <field name="name">Bảng điểm Lớp - Môn</field>
+        <field name="model">school.grade.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">school_management.report_grade_class_subject</field>
+        <field name="report_file">school_management.report_grade_class_subject</field>
+        <field name="print_report_name">('Bang_diem_%s_%s' % (object.class_id.name, object.subject_id.name)).replace('/', '-')</field>
+    </record>
+
+    <!-- QWeb Template -->
+    <template id="report_grade_class_subject">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <p>Company: <span t-esc="res_company.name"/></p>
+                    <h2 class="text-center">BẢNG ĐIỂM CHI TIẾT</h2>
+                    <h3 class="text-center">Lớp: <span t-esc="class_name"/> - Năm học: <span t-esc="school_year"/></h3>
+                    <h4 class="text-center">Môn học: <span t-esc="subject_name"/></h4>
+
+                    <table class="table table-bordered" style="margin-top: 20px; width: 100%;">
+                        <thead>
+                            <tr class="bg-primary text-white">
+                                <th style="width: 5%;">STT</th>
+                                <th style="width: 15%;">Mã HS</th>
+                                <th>Họ và tên</th>
+                                <th style="width: 10%;">Điểm GK</th>
+                                <th style="width: 10%;">Điểm CK</th>
+                                <th style="width: 12%;">Điểm TB</th>
+                                <th style="width: 15%;">Xếp loại</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="rows" t-as="line">
+                                <tr>
+                                    <td><t t-esc="line_index + 1"/></td>
+                                    <td><span t-esc="line['student_code']"/></td>
+                                    <td><span t-esc="line['student_name']"/></td>
+                                    <td class="text-center"><span t-esc="line['midterm_score']"/></td>
+                                    <td class="text-center"><span t-esc="line['final_score']"/></td>
+                                    <td class="text-center"><b><span t-esc="line['average_score']"/></b></td>
+                                    <td class="text-center"><span t-esc="line['classification']"/></td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>

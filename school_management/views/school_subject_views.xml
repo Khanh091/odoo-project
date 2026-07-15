@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_school_subject_tree" model="ir.ui.view">
+        <field name="name">school.subject.tree</field>
+        <field name="model">school.subject</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="subject_code"/>
+                <field name="name"/>
+                <field name="credits"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_school_subject_form" model="ir.ui.view">
+        <field name="name">school.subject.form</field>
+        <field name="model">school.subject</field>
+        <field name="arch" type="xml">
+            <form>
+
+                <sheet>
+
+                    <group>
+
+                        <group>
+
+                            <field name="subject_code"/>
+
+                            <field name="name"/>
+
+                            <field name="credits"/>
+
+                        </group>
+
+                    </group>
+
+                    <notebook>
+
+                        <page string="Giáo viên giảng dạy">
+
+                            <field
+                                name="teacher_ids"
+                                widget="many2many_tags"
+                                options="{'no_create': False}"/>
+
+                        </page>
+
+                        <page string="Phân công theo lớp">
+
+                            <field name="teaching_line_ids">
+
+                                <tree>
+
+                                    <field name="class_id"/>
+
+                                    <field name="teacher_id"/>
+
+                                </tree>
+
+                            </field>
+
+                        </page>
+
+                    </notebook>
+
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+</odoo>

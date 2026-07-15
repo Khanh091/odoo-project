@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_student_grade">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">BANG DIEM HOC SINH</h2>
+                        <h3><span t-field="o.name"/> - <span t-field="o.student_code"/></h3>
+                        <p>Lop: <span t-field="o.class_id.name"/></p>
+
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Mon hoc</th>
+                                    <th>Diem giua ky</th>
+                                    <th>Diem cuoi ky</th>
+                                    <th>Diem trung binh</th>
+                                    <th>Xep loai</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.grade_ids" t-as="grade">
+                                    <td><span t-field="grade.subject_id.name"/></td>
+                                    <td><span t-field="grade.midterm_score"/></td>
+                                    <td><span t-field="grade.final_score"/></td>
+                                    <td><span t-field="grade.average_score"/></td>
+                                    <td><span t-field="grade.classification"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

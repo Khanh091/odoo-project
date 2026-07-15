@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <menuitem
+        id="notification_center_menu_root"
+        name="Thông báo của tôi"
+        action="notification_center_action_my_notifications"
+        sequence="90"
+        groups="base.group_user"/>
+</odoo>

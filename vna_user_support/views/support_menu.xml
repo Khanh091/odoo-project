@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_vna_support_root"
+              name="Kênh hỗ trợ người dùng"
+              sequence="40"
+              groups="vna_user_support.group_vna_support_user"/>
+
+    <menuitem id="menu_vna_support_request_my"
+              name="Yêu cầu của tôi"
+              parent="menu_vna_support_root"
+              action="action_vna_support_request_my"
+              sequence="10"
+              groups="vna_user_support.group_vna_support_user"/>
+
+    <menuitem id="menu_vna_support_request_to_handle"
+              name="Yêu cầu cần xử lý"
+              parent="menu_vna_support_root"
+              action="action_vna_support_request_to_handle"
+              sequence="20"
+              groups="vna_user_support.group_vna_support_agent"/>
+
+    <menuitem id="menu_vna_support_request_all"
+              name="Tất cả yêu cầu"
+              parent="menu_vna_support_root"
+              action="action_vna_support_request_all"
+              sequence="30"
+              groups="vna_user_support.group_vna_support_manager"/>
+
+    <menuitem id="menu_vna_support_config"
+              name="Cấu hình"
+              parent="menu_vna_support_root"
+              sequence="90"
+              groups="vna_user_support.group_vna_support_manager"/>
+
+    <menuitem id="menu_vna_support_request_type"
+              name="Loại yêu cầu"
+              parent="menu_vna_support_config"
+              action="action_vna_support_request_type"
+              sequence="10"
+              groups="vna_user_support.group_vna_support_manager"/>
+
+    <menuitem id="menu_vna_support_team"
+              name="Nhóm tiếp nhận"
+              parent="menu_vna_support_config"
+              action="action_vna_support_team"
+              sequence="20"
+              groups="vna_user_support.group_vna_support_manager"/>
+
+    <menuitem id="menu_vna_support_stage"
+              name="Trạng thái"
+              parent="menu_vna_support_config"
+              action="action_vna_support_stage"
+              sequence="30"
+              groups="vna_user_support.group_vna_support_manager"/>
+
+    <menuitem id="menu_vna_support_settings"
+              name="Cài đặt"
+              parent="menu_vna_support_config"
+              action="action_vna_support_settings"
+              sequence="40"
+              groups="vna_user_support.group_vna_support_manager"/>
+</odoo>

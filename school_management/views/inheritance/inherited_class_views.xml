@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <record id="view_school_class_form_inherit" model="ir.ui.view">
+        <field name="name">school.class.form.inherit</field>
+        <field name="model">school.class</field>
+        <field name="inherit_id" ref="school_management.view_school_class_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group/group" position="inside">
+                <field name="room_number"/>
+                <field name="max_students"/>
+                <field name="is_active"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <menuitem id="menu_school_root" name="School" sequence="10"/>
+
+    <menuitem id="menu_school_student" name="Học sinh" parent="menu_school_root" action="action_school_student" sequence="1"/>
+    <menuitem id="menu_school_teacher" name="Giáo viên" parent="menu_school_root" action="action_school_teacher" sequence="2"/>
+    <menuitem id="menu_school_class" name="Lớp học" parent="menu_school_root" action="action_school_class" sequence="3"/>
+    <menuitem id="menu_school_subject" name="Môn học" parent="menu_school_root" action="action_school_subject" sequence="4"/>
+
+    <!-- Menu Điểm -->
+    <menuitem id="menu_school_grade" name="Điểm" parent="menu_school_root" sequence="5"/>
+    <menuitem id="menu_school_grade_all" name="Tất cả Bảng điểm" parent="menu_school_grade" action="action_school_grade" sequence="1"/>
+    <menuitem id="menu_grade_by_class" name="Nhập Điểm Theo Lớp" parent="menu_school_grade" action="action_grade_wizard" sequence="2"/>  <!-- Dùng wizard -->
+
+    <!-- Menu Báo cáo -->
+    <menuitem id="menu_school_reports" name="Báo cáo" parent="menu_school_root" sequence="6"/>
+    <menuitem id="menu_report_student_list" name="Danh sách Học sinh" parent="menu_school_reports" action="action_report_student_by_class" sequence="1"/>
+    <menuitem id="menu_report_grade_by_class" name="Bảng điểm theo Lớp - Môn" parent="menu_school_reports" action="action_report_grade_class_subject" sequence="2"/>
+
+</odoo>

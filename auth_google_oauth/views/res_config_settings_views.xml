@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.inherit.auth.google.oauth</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="auth_oauth.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <setting id="signin_google_setting" position="replace">
+                <setting id="signin_google_setting"
+                         string="Google Authentication"
+                         help="Allow users to sign in with their verified Google account"
+                         documentation="/applications/general/auth/google.html"
+                         invisible="not module_auth_oauth">
+                    <field name="google_oauth_enabled"/>
+                    <div class="content-group" invisible="not google_oauth_enabled">
+                        <div class="row mt16">
+                            <label for="google_oauth_client_id" string="Client ID:" class="col-lg-3 o_light_label"/>
+                            <field name="google_oauth_client_id" placeholder="e.g. 1234-xyz.apps.googleusercontent.com"/>
+                        </div>
+                        <div class="row mt16">
+                            <label for="google_oauth_auto_signup" string="Auto signup:" class="col-lg-3 o_light_label"/>
+                            <field name="google_oauth_auto_signup"/>
+                        </div>
+                        <div class="row mt16">
+                            <label for="google_oauth_allowed_domains" string="Allowed domains:" class="col-lg-3 o_light_label"/>
+                            <field name="google_oauth_allowed_domains" widget="text" placeholder="example.com&#10;company.vn"/>
+                        </div>
+                        <div class="row mt16">
+                            <label for="google_oauth_redirect_uri" string="Redirect URI:" class="col-lg-3 o_light_label"/>
+                            <field name="google_oauth_redirect_uri" readonly="1"/>
+                        </div>
+                    </div>
+                </setting>
+            </setting>
+        </field>
+    </record>
+</odoo>

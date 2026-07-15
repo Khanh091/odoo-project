@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Nhóm Quản trị -->
+    <record id="group_school_manager" model="res.groups">
+        <field name="name">Quản trị School</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="users" eval="[(4, ref('base.user_admin'))]"/>
+    </record>
+
+    <!-- Nhóm Giáo vụ -->
+    <record id="group_school_academic" model="res.groups">
+        <field name="name">Giáo vụ</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Nhóm Giáo viên -->
+    <record id="group_school_teacher" model="res.groups">
+        <field name="name">Giáo viên</field>
+        <field name="category_id" ref="base.module_category_hidden"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+</odoo>

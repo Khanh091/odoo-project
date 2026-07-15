@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <title>Notification Center</title>
+</head>
+<body>
+    <h1>Notification Center</h1>
+    <p>Generic realtime notification center for Odoo 17 backend users.</p>
+    <h2>Examples</h2>
+    <pre><code>self.env["notification.service"].notify_user(
+    user=self.env.user,
+    title="Cập nhật thành công",
+    message="Bản ghi đã được xử lý.",
+    notification_type="success",
+    source_record=self,
+)</code></pre>
+    <pre><code>self.env["notification.service"].notify_users(
+    users=user_records,
+    title="Có yêu cầu mới",
+    message="Bạn có một yêu cầu cần xử lý.",
+    notification_type="info",
+    source_record=request,
+)</code></pre>
+    <pre><code>self.env["notification.service"].notify_groups(
+    groups=request.request_type_id.receiver_group_ids,
+    title="Có yêu cầu hỗ trợ mới",
+    message=f"{request.code} - {request.name}",
+    notification_type="warning",
+    source_record=request,
+    source_module="vna_user_support",
+)</code></pre>
+    <pre><code>self.env["notification.service"].notify_groups(
+    groups=request.request_type_id.receiver_group_ids,
+    extra_users=request.requester_id,
+    title="Trạng thái yêu cầu thay đổi",
+    message=f"{request.code}: Đang xử lý",
+    notification_type="info",
+    source_record=request,
+    source_module="vna_user_support",
+)</code></pre>
+    <pre><code>self.env["notification.service"].notify_groups(
+    groups=groups,
+    exclude_users=self.env.user,
+    title="Thông báo mới",
+    message="Có thay đổi mới.",
+)</code></pre>
+</body>
+</html>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_vna_support_request_type_tree" model="ir.ui.view">
+        <field name="name">vna.support.request.type.tree</field>
+        <field name="model">vna.support.request.type</field>
+        <field name="arch" type="xml">
+            <tree string="Loại yêu cầu">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="default_priority"/>
+                <field name="receiver_group_ids" widget="many2many_tags"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_vna_support_request_type_form" model="ir.ui.view">
+        <field name="name">vna.support.request.type.form</field>
+        <field name="model">vna.support.request.type</field>
+        <field name="arch" type="xml">
+            <form string="Loại yêu cầu hỗ trợ">
+                <sheet>
+                    <div class="oe_button_box" name="button_box"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="default_priority"/>
+                        </group>
+                        <group>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="receiver_group_ids" widget="many2many_tags" options="{'no_create_edit': False}"/>
+                    </group>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_vna_support_request_type_search" model="ir.ui.view">
+        <field name="name">vna.support.request.type.search</field>
+        <field name="model">vna.support.request.type</field>
+        <field name="arch" type="xml">
+            <search string="Tìm loại yêu cầu">
+                <field name="name"/>
+                <field name="code"/>
+                <filter name="active" string="Đang hoạt động" domain="[('active', '=', True)]"/>
+                <filter name="archived" string="Đã archive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_vna_support_request_type" model="ir.actions.act_window">
+        <field name="name">Loại yêu cầu</field>
+        <field name="res_model">vna.support.request.type</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_vna_support_request_type_search"/>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+</odoo>

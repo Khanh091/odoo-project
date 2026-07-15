@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Báo cáo Danh sách học sinh theo lớp -->
+    <record id="action_report_student_by_class" model="ir.actions.report">
+        <field name="name">Danh sách học sinh theo lớp</field>
+        <field name="model">school.class</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">school_management.report_student_list</field>
+        <field name="report_file">school_management.report_student_list</field>
+        <field name="print_report_name">'Danh_sach_hoc_sinh_%s' % (object.name)</field>
+    </record>
+
+    <!-- Báo cáo Bảng điểm học sinh -->
+    <record id="action_report_student_grade" model="ir.actions.report">
+        <field name="name">Bảng điểm học sinh</field>
+        <field name="model">school.student</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">school_management.report_student_grade</field>
+        <field name="report_file">school_management.report_student_grade</field>
+        <field name="print_report_name">'Bang_diem_%s' % (object.name)</field>
+    </record>
+<!--    <record id="action_student_list_excel" model="ir.actions.report">-->
+<!--        <field name="name">Danh sách HS - Excel</field>-->
+<!--        <field name="model">school.student</field>-->
+<!--        <field name="report_type">xlsx</field>-->
+<!--        <field name="report_name">school_management.student_list_excel</field>-->
+<!--        <field name="print_report_name">'DSHS_Excel'</field>-->
+<!--    </record>-->
+
+<!--    <record id="action_student_grade_excel" model="ir.actions.report">-->
+<!--        <field name="name">Bảng điểm - Excel</field>-->
+<!--        <field name="model">school.student</field>-->
+<!--        <field name="report_type">xlsx</field>-->
+<!--        <field name="report_name">school_management.student_grade_excel</field>-->
+<!--        <field name="print_report_name">'Bang_diem_Excel'</field>-->
+<!--    </record>-->
+    <!-- Menu cho báo cáo -->
+    <menuitem id="menu_school_reports" name="Báo cáo" parent="menu_school_root" sequence="20"/>
+
+    <menuitem id="menu_report_student_list"
+              name="Danh sách học sinh theo lớp"
+              parent="menu_school_reports"
+              action="action_report_student_by_class" sequence="1"/>
+
+    <menuitem id="menu_report_student_grade"
+              name="Bảng điểm học sinh"
+              parent="menu_school_reports"
+              action="action_report_student_grade" sequence="2"/>
+
+</odoo>

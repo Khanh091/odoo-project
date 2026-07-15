@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Action Học sinh -->
+    <record id="action_school_student" model="ir.actions.act_window">
+        <field name="name">Học sinh</field>
+        <field name="res_model">school.student</field>
+        <field name="view_mode">tree,form,kanban</field>
+    </record>
+
+    <!-- Action Giáo viên -->
+    <record id="action_school_teacher" model="ir.actions.act_window">
+        <field name="name">Giáo viên</field>
+        <field name="res_model">school.teacher</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Action Lớp học -->
+    <record id="action_school_class" model="ir.actions.act_window">
+        <field name="name">Lớp học</field>
+        <field name="res_model">school.class</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Action Môn học -->
+    <record id="action_school_subject" model="ir.actions.act_window">
+        <field name="name">Môn học</field>
+        <field name="res_model">school.subject</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- === ACTION ĐIỂM === -->
+        <!-- Action xem tất cả điểm -->
+    <record id="action_school_grade" model="ir.actions.act_window">
+        <field name="name">Quản lý điểm</field>
+        <field name="res_model">school.grade</field>
+        <field name="view_mode">tree,form</field>
+        <!-- <field name="search_view_id" ref="school_management.view_school_grade_search"/> -->
+    </record>
+
+        <!-- Action Nhập điểm theo lớp -->
+    <record id="action_grade_by_class" model="ir.actions.act_window">
+        <field name="name">Nhập Điểm Theo Lớp</field>
+        <field name="res_model">school.grade</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[('class_id', '=', active_id)]</field>
+        <field name="context">{
+            'default_class_id': active_id,
+            'search_default_class_id': active_id,
+            'default_student_id': False
+        }</field>
+        <field name="help">Nhập điểm cho học sinh thuộc lớp đang chọn</field>
+    </record>
+        <!-- Wizard Nhập Điểm Theo Lớp -->
+    <record id="action_grade_wizard" model="ir.actions.act_window">
+        <field name="name">Nhập Điểm Theo Lớp</field>
+        <field name="res_model">school.grade.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_class_id': active_id}</field>
+    </record>
+        <!-- Báo cáo Bảng điểm theo Lớp - Môn -->
+    <record id="action_report_grade_class_subject" model="ir.actions.act_window">
+        <field name="name">Bảng điểm theo Lớp - Môn</field>
+        <field name="res_model">school.grade</field>
+        <field name="view_mode">tree,form</field>
+        <field name="domain">[]</field>
+        <field name="context">{
+            'search_default_group_by_class': 1,
+            'search_default_group_by_subject': 1
+        }</field>
+    </record>
+        <!-- Wizard chọn Lớp + Môn để in báo cáo -->
+    <record id="action_grade_report_wizard" model="ir.actions.act_window">
+        <field name="name">In Bảng điểm Lớp - Môn</field>
+        <field name="res_model">school.grade.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_class_id': active_id}</field>
+    </record>
+
+</odoo>

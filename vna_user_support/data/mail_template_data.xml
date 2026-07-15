@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="email_template_vna_support_new_request_receiver" model="mail.template">
+            <field name="name">VNA Support - Yêu cầu mới cho nhóm tiếp nhận</field>
+            <field name="model_id" ref="model_vna_support_request"/>
+            <field name="subject">[{{ object.code }}] Yêu cầu hỗ trợ mới: {{ object.name }}</field>
+            <field name="email_from">{{ object.company_id.email_formatted or user.email_formatted }}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <div>
+                    <p>Xin chào <t t-out="ctx.get('recipient_user').name if ctx.get('recipient_user') else ''"/>,</p>
+                    <p>Có một yêu cầu hỗ trợ mới cần tiếp nhận.</p>
+                    <ul>
+                        <li><strong>Mã:</strong> <t t-out="object.code"/></li>
+                        <li><strong>Tiêu đề:</strong> <t t-out="object.name"/></li>
+                        <li><strong>Người tạo:</strong> <t t-out="object.requester_id.name"/></li>
+                        <li><strong>Loại yêu cầu:</strong> <t t-out="object.request_type_id.name"/></li>
+                        <li><strong>Mức ưu tiên:</strong> <t t-out="dict(object._fields['priority'].selection).get(object.priority)"/></li>
+                    </ul>
+                    <p>Vui lòng truy cập hệ thống để xử lý.</p>
+                </div>
+            </field>
+        </record>
+
+        <record id="email_template_vna_support_requester_confirmation" model="mail.template">
+            <field name="name">VNA Support - Xác nhận cho người tạo</field>
+            <field name="model_id" ref="model_vna_support_request"/>
+            <field name="subject">[{{ object.code }}] Đã ghi nhận yêu cầu hỗ trợ</field>
+            <field name="email_from">{{ object.company_id.email_formatted or user.email_formatted }}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <div>
+                    <p>Xin chào <t t-out="object.requester_id.name"/>,</p>
+                    <p>Hệ thống đã ghi nhận yêu cầu hỗ trợ của bạn.</p>
+                    <ul>
+                        <li><strong>Mã:</strong> <t t-out="object.code"/></li>
+                        <li><strong>Tiêu đề:</strong> <t t-out="object.name"/></li>
+                        <li><strong>Loại yêu cầu:</strong> <t t-out="object.request_type_id.name"/></li>
+                        <li><strong>Trạng thái:</strong> <t t-out="object.stage_id.name"/></li>
+                    </ul>
+                </div>
+            </field>
+        </record>
+
+        <record id="email_template_vna_support_stage_changed" model="mail.template">
+            <field name="name">VNA Support - Thay đổi trạng thái</field>
+            <field name="model_id" ref="model_vna_support_request"/>
+            <field name="subject">[{{ object.code }}] Cập nhật trạng thái: {{ object.stage_id.name }}</field>
+            <field name="email_from">{{ object.company_id.email_formatted or user.email_formatted }}</field>
+            <field name="auto_delete" eval="False"/>
+            <field name="body_html" type="html">
+                <div>
+                    <p>Xin chào <t t-out="ctx.get('recipient_user').name if ctx.get('recipient_user') else ''"/>,</p>
+                    <p>Yêu cầu hỗ trợ đã được cập nhật trạng thái.</p>
+                    <ul>
+                        <li><strong>Mã:</strong> <t t-out="object.code"/></li>
+                        <li><strong>Tiêu đề:</strong> <t t-out="object.name"/></li>
+                        <li><strong>Trạng thái hiện tại:</strong> <t t-out="object.stage_id.name"/></li>
+                        <li><strong>Người xử lý:</strong> <t t-out="object.assigned_user_id.name or ''"/></li>
+                    </ul>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>

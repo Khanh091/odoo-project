@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="request_type_vna_support_software_error" model="vna.support.request.type">
+            <field name="name">Báo lỗi phần mềm</field>
+            <field name="code">software_error</field>
+            <field name="sequence">10</field>
+            <field name="default_priority">high</field>
+            <field name="receiver_group_ids" eval="[(6, 0, [ref('vna_user_support.group_vna_support_team_it'), ref('vna_user_support.group_vna_support_team_application_admin')])]"/>
+        </record>
+
+        <record id="request_type_vna_support_user_support" model="vna.support.request.type">
+            <field name="name">Hỗ trợ sử dụng hệ thống</field>
+            <field name="code">user_support</field>
+            <field name="sequence">20</field>
+            <field name="default_priority">normal</field>
+            <field name="receiver_group_ids" eval="[(6, 0, [ref('vna_user_support.group_vna_support_team_user_guide')])]"/>
+        </record>
+
+        <record id="request_type_vna_support_user_guide" model="vna.support.request.type">
+            <field name="name">Hướng dẫn sử dụng</field>
+            <field name="code">user_guide</field>
+            <field name="sequence">30</field>
+            <field name="default_priority">normal</field>
+            <field name="receiver_group_ids" eval="[(6, 0, [ref('vna_user_support.group_vna_support_team_user_guide')])]"/>
+        </record>
+
+        <record id="request_type_vna_support_access_request" model="vna.support.request.type">
+            <field name="name">Yêu cầu cấp quyền</field>
+            <field name="code">access_request</field>
+            <field name="sequence">40</field>
+            <field name="default_priority">normal</field>
+            <field name="receiver_group_ids" eval="[(6, 0, [ref('vna_user_support.group_vna_support_team_application_admin')])]"/>
+        </record>
+
+        <record id="request_type_vna_support_improvement" model="vna.support.request.type">
+            <field name="name">Đề xuất cải tiến</field>
+            <field name="code">improvement</field>
+            <field name="sequence">50</field>
+            <field name="default_priority">low</field>
+            <field name="receiver_group_ids" eval="[(6, 0, [ref('vna_user_support.group_vna_support_team_improvement'), ref('vna_user_support.group_vna_support_team_application_admin')])]"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_school_teacher_form_inherit" model="ir.ui.view">
+        <field name="name">school.teacher.form.inherit</field>
+        <field name="model">school.teacher</field>
+        <field name="inherit_id" ref="school_management.view_school_teacher_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group/group" position="inside">
+                <field name="qualification"/>
+                <field name="experience_years"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

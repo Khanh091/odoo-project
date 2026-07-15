@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_vna_support_res_config_settings" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.vna.user.support</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="Kênh hỗ trợ VNA" name="vna_user_support">
+                    <block title="Telegram">
+                        <setting string="Bật Telegram" help="Chỉ gửi Telegram khi tạo yêu cầu hỗ trợ mới.">
+                            <field name="vna_support_telegram_enabled"/>
+                        </setting>
+                        <setting string="Bot token" help="Không hard-code token trong source code. Admin nhập token tại đây.">
+                            <field name="vna_support_telegram_bot_token" password="True"/>
+                        </setting>
+                        <setting string="Group chat ID">
+                            <field name="vna_support_telegram_chat_id"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="action_vna_support_settings" model="ir.actions.act_window">
+        <field name="name">Cài đặt</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'vna_user_support'}</field>
+    </record>
+</odoo>

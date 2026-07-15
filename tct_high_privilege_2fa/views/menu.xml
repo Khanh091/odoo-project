@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_tct_security_root"
+              name="TCT Security"
+              parent="base.menu_administration"
+              sequence="90"/>
+
+    <menuitem id="menu_tct_allowed_ip"
+              name="Allowed IPs"
+              parent="menu_tct_security_root"
+              action="action_tct_allowed_ip"
+              sequence="10"/>
+</odoo>

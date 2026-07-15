@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="tct_portal_frontend_layout_fix" inherit_id="portal.frontend_layout">
+        <xpath expr="//html" position="attributes">
+            <attribute name="t-att-dir">request.env['res.lang'].sudo()._lang_get_direction(request.env.lang)</attribute>
+        </xpath>
+        <xpath expr="//div[@id='wrapwrap']" position="attributes">
+            <attribute name="t-attf-class">#{(pageName or '')} #{request.env['res.lang'].sudo()._lang_get_direction(request.env.lang) == 'rtl' and 'o_rtl' or ''} #{'o_portal' if is_portal else ''}</attribute>
+        </xpath>
+    </template>
+</odoo>

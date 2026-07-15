@@ -1,0 +1,26 @@
+.modal .o_file_preview_wizard.o_form_nosheet {
+    padding-top: 0.25rem;
+}
+
+.modal .o_file_preview_wizard {
+    .tct_file_preview_header {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        margin: -0.25rem 0 0.5rem;
+        padding: 0.5rem 0 0.4rem;
+        background: var(--o-view-background-color, #fff);
+        border-bottom: 1px solid var(--border-color, #dee2e6);
+
+        .o_group {
+            margin-bottom: 0;
+        }
+    }
+
+    .tct_file_preview_body,
+    .o_file_preview_html,
+    .o_field_html,
+    .o_readonly_modifier {
+        width: 100%;
+    }
+}

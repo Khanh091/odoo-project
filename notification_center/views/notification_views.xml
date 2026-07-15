@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="notification_center_view_tree" model="ir.ui.view">
+        <field name="name">notification.center.tree</field>
+        <field name="model">notification.center</field>
+        <field name="arch" type="xml">
+            <tree string="Thông báo" create="false" edit="false" delete="false">
+                <field name="title"/>
+                <field name="message"/>
+                <field name="notification_type"/>
+                <field name="is_read"/>
+                <field name="read_at"/>
+                <field name="create_date"/>
+                <field name="source_module"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="notification_center_view_form" model="ir.ui.view">
+        <field name="name">notification.center.form</field>
+        <field name="model">notification.center</field>
+        <field name="arch" type="xml">
+            <form string="Thông báo" create="false" edit="false" delete="false">
+                <header>
+                    <button name="action_mark_as_read" type="object" string="Đánh dấu đã đọc" class="btn-primary" invisible="is_read"/>
+                    <button name="action_open_source" type="object" string="Mở bản ghi liên quan" class="btn-secondary" invisible="not source_model or not source_res_id"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="title" readonly="1"/>
+                            <field name="message" readonly="1"/>
+                            <field name="notification_type" readonly="1"/>
+                            <field name="icon" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="user_id" readonly="1"/>
+                            <field name="is_read" readonly="1"/>
+                            <field name="read_at" readonly="1"/>
+                            <field name="create_date" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Nguồn">
+                        <group>
+                            <field name="source_module" readonly="1"/>
+                            <field name="source_model" readonly="1"/>
+                            <field name="source_res_id" readonly="1"/>
+                            <field name="deduplication_key" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="action_url" readonly="1"/>
+                            <field name="active" readonly="1"/>
+                        </group>
+                    </group>
+                    <group string="Dữ liệu mở rộng">
+                        <field name="payload" readonly="1" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="notification_center_view_search" model="ir.ui.view">
+        <field name="name">notification.center.search</field>
+        <field name="model">notification.center</field>
+        <field name="arch" type="xml">
+            <search string="Tìm thông báo">
+                <field name="title"/>
+                <field name="message"/>
+                <field name="source_module"/>
+                <filter name="unread" string="Chưa đọc" domain="[('is_read', '=', False)]"/>
+                <filter name="read" string="Đã đọc" domain="[('is_read', '=', True)]"/>
+                <separator/>
+                <filter name="type_info" string="Thông tin" domain="[('notification_type', '=', 'info')]"/>
+                <filter name="type_success" string="Thành công" domain="[('notification_type', '=', 'success')]"/>
+                <filter name="type_warning" string="Cảnh báo" domain="[('notification_type', '=', 'warning')]"/>
+                <filter name="type_danger" string="Nguy hiểm" domain="[('notification_type', '=', 'danger')]"/>
+                <separator/>
+                <filter name="today" string="Hôm nay" domain="[('create_date', '&gt;=', context_today().strftime('%Y-%m-%d 00:00:00'))]"/>
+                <group expand="0" string="Nhóm theo">
+                    <filter name="group_by_type" string="Loại thông báo" context="{'group_by': 'notification_type'}"/>
+                    <filter name="group_by_source_module" string="Module nguồn" context="{'group_by': 'source_module'}"/>
+                    <filter name="group_by_create_date" string="Ngày tạo" context="{'group_by': 'create_date:day'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="notification_center_action_my_notifications" model="ir.actions.act_window">
+        <field name="name">Thông báo của tôi</field>
+        <field name="res_model">notification.center</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="notification_center_view_tree"/>
+        <field name="domain">[("user_id", "=", uid)]</field>
+        <field name="context">{'search_default_unread': 1}</field>
+        <field name="search_view_id" ref="notification_center_view_search"/>
+    </record>
+
+    <record id="notification_center_action_my_notifications_view_tree" model="ir.actions.act_window.view">
+        <field name="sequence" eval="1"/>
+        <field name="view_mode">tree</field>
+        <field name="view_id" ref="notification_center_view_tree"/>
+        <field name="act_window_id" ref="notification_center_action_my_notifications"/>
+    </record>
+
+    <record id="notification_center_action_my_notifications_view_form" model="ir.actions.act_window.view">
+        <field name="sequence" eval="2"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="notification_center_view_form"/>
+        <field name="act_window_id" ref="notification_center_action_my_notifications"/>
+    </record>
+</odoo>

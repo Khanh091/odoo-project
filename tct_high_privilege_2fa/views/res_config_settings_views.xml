@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="res_config_settings_view_form_tct_high_privilege_2fa" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.tct.high.privilege.2fa</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//form" position="inside">
+                <div class="app_settings_block" data-string="TCT Security">
+
+                    <h2>TCT Security Settings</h2>
+
+                    <div class="row mt16 o_settings_container">
+
+                        <div class="col-12 col-lg-12 o_setting_box">
+                            <div class="o_setting_left_pane"/>
+                            <div class="o_setting_right_pane">
+                                <label for="tct_high_privilege_group_ids"/>
+                                <field name="tct_high_privilege_group_ids" widget="many2many_tags"/>
+                                <div class="text-muted">
+                                    Groups that require TCT MFA and IP whitelist policies.
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="tct_enable_mfa"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="tct_enable_mfa"/>
+                                <div class="text-muted">Enable MFA for high privilege users.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-lg-6 o_setting_box">
+                            <div class="o_setting_left_pane">
+                                <field name="tct_enable_ip_whitelist"/>
+                            </div>
+                            <div class="o_setting_right_pane">
+                                <label for="tct_enable_ip_whitelist"/>
+                                <div class="text-muted">Enable IP whitelist restriction.</div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

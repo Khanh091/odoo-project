@@ -1,0 +1,10 @@
+.o_form_view .o_vna_support_statusbar_readonly {
+    opacity: 0.45;
+    filter: grayscale(0.35);
+    pointer-events: none;
+
+    .o_statusbar_status,
+    .o_arrow_button {
+        cursor: not-allowed;
+    }
+}

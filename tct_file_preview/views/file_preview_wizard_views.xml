@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_tct_file_preview_wizard_form" model="ir.ui.view">
+        <field name="name">tct.file.preview.wizard.form</field>
+        <field name="model">tct.file.preview.wizard</field>
+        <field name="arch" type="xml">
+            <form string="File Preview" class="o_form_nosheet o_file_preview_wizard">
+                <div class="tct_file_preview_header">
+                    <group col="4">
+                        <field name="attachment_id" readonly="1"/>
+                        <field name="preview_type" readonly="1"/>
+                    </group>
+                </div>
+
+                <div class="tct_file_preview_body">
+                    <field name="preview_html"
+                           readonly="1"
+                           nolabel="1"
+                           widget="html"
+                           class="o_file_preview_html"/>
+                </div>
+
+                <footer>
+                    <button string="Close"
+                            class="btn-secondary"
+                            special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

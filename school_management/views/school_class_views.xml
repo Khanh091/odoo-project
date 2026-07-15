@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Tree View -->
+    <record id="view_school_class_tree" model="ir.ui.view">
+        <field name="name">school.class.tree</field>
+        <field name="model">school.class</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="class_code"/>
+                <field name="name"/>
+                <field name="grade_level"/>
+                <field name="school_year"/>
+                <field name="teacher_id"/>
+                <field name="total_students"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_school_class_form" model="ir.ui.view">
+        <field name="name">school.class.form</field>
+        <field name="model">school.class</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_report_student_by_class)d"
+                                string="In Danh sách Học sinh"
+                                type="action"
+                                class="btn-primary"
+                                icon="fa-print"/>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="class_code"/>
+                            <field name="name"/>
+                            <field name="grade_level"/>
+                            <field name="school_year"/>
+                            <field name="teacher_id"/>
+                            <field name="total_students" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <div class="oe_button_box" style="margin-bottom: 10px;">
+                        <button string="👨‍🎓 Danh sách học sinh"
+                                type="object"
+                                name="action_view_students"
+                                class="btn-primary"/>
+
+                        <button string="📝 Nhập Điểm Cho Lớp Này"
+                            type="action"
+                            name="%(school_management.action_grade_wizard)d"
+                            class="btn-primary"/>
+                        <button string="📄 In Bảng điểm"
+                            type="action"
+                            name="%(school_management.action_grade_report_wizard)d"
+                            class="btn-primary"/>
+                    </div>
+
+                    <notebook>
+                        <page string="Môn học">
+                            <field name="subject_ids">
+                                <tree editable="bottom">
+                                    <field name="subject_code"/>
+                                    <field name="name"/>
+                                    <field name="credits"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <page string="Danh sách học sinh">
+                            <field name="student_ids" widget="many2many">
+                                <tree>
+                                    <field name="student_code"/>
+                                    <field name="name"/>
+                                    <field name="age"/>
+                                    <field name="gender"/>
+                                    <field name="status"/>
+                                </tree>
+                            </field>
+                        </page>
+                        <page string="Giáo viên giảng dạy">
+                            <field name="teaching_line_ids">
+                                <tree editable="bottom">
+
+                                    <field
+                                        name="subject_id"
+                                        domain="[('id','in',parent.subject_ids)]"/>
+
+                                    <field
+                                        name="teacher_id"
+                                        domain="[('subject_ids','in',subject_id)]"/>
+
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+</odoo>

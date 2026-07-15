@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="mfa_verify_page" name="MFA Verify Page">
+        <t t-call="web.login_layout">
+
+            <div class="container" style="max-width: 420px; margin-top: 80px;">
+
+                <h3 style="text-align: center; margin-bottom: 20px;">
+                    Two-Factor Authentication
+                </h3>
+
+                <p style="text-align: center;">
+                    Enter the OTP from Google Authenticator
+                </p>
+
+                <div t-if="error" class="alert alert-danger" role="alert">
+                    <t t-esc="error"/>
+                </div>
+
+                <form action="/tct/mfa/verify" method="post">
+
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="login" t-att-value="login"/>
+
+                    <div class="form-group">
+                        <label>OTP Code</label>
+                        <input type="text"
+                               name="otp"
+                               class="form-control"
+                               maxlength="6"
+                               autofocus="autofocus"
+                               placeholder="6-digit code"
+                               required="required"/>
+                    </div>
+
+                    <br/>
+
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary">
+                            Verify
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </t>
+    </template>
+
+    <template id="mfa_setup_page" name="MFA Setup Page">
+        <t t-call="web.login_layout">
+
+            <div class="container" style="max-width: 460px; margin-top: 60px;">
+
+                <h3 style="text-align: center; margin-bottom: 20px;">
+                    Two-Factor Authentication Setup
+                </h3>
+
+                <p style="text-align: center;">
+                    Scan this QR code with Google Authenticator, then enter the first OTP code.
+                </p>
+
+                <div t-if="error" class="alert alert-danger" role="alert">
+                    <t t-esc="error"/>
+                </div>
+
+                <div style="text-align: center; margin: 20px 0;">
+                    <img t-att-src="'data:image/png;base64,%s' % qrcode"
+                         alt="TOTP QR Code"
+                         style="width: 220px; height: 220px;"/>
+                </div>
+
+                <details style="margin-bottom: 20px;">
+                    <summary>Cannot scan the QR code?</summary>
+                    <code style="display: block; word-break: break-all; margin-top: 8px;">
+                        <t t-esc="secret"/>
+                    </code>
+                    <a t-att-href="otpauth_url" class="btn btn-link px-0">
+                        Open authenticator app
+                    </a>
+                </details>
+
+                <form action="/tct/mfa/setup" method="post">
+
+                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                    <input type="hidden" name="login" t-att-value="login"/>
+
+                    <div class="form-group">
+                        <label>OTP Code</label>
+                        <input type="text"
+                               name="otp"
+                               class="form-control"
+                               maxlength="6"
+                               autofocus="autofocus"
+                               placeholder="6-digit code"
+                               required="required"/>
+                    </div>
+
+                    <br/>
+
+                    <div style="text-align: center;">
+                        <button type="submit" class="btn btn-primary">
+                            Activate and Login
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </t>
+    </template>
+
+</odoo>

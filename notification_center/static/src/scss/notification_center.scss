@@ -1,0 +1,132 @@
+.o_notification_center_systray .o_notification_center_toggler {
+    min-width: 42px;
+    height: 100%;
+    padding: 0 10px;
+    border: 0;
+    background-color: transparent;
+    color: inherit;
+}
+
+.o_notification_center_systray .o_notification_center_toggler::after {
+    display: none;
+}
+
+.o_notification_center_bell {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    min-height: 22px;
+}
+
+.o_notification_center_badge {
+    position: absolute;
+    top: -7px;
+    right: -10px;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 9px;
+    background: #d9534f;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 18px;
+    text-align: center;
+}
+
+.o_notification_center_dropdown {
+    width: 380px;
+    max-width: 90vw;
+    max-height: 520px;
+    overflow: hidden;
+    padding: 0;
+}
+
+.o_notification_center_header,
+.o_notification_center_footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 12px;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.o_notification_center_footer {
+    border-top: 1px solid #dee2e6;
+    border-bottom: 0;
+}
+
+.o_notification_center_empty {
+    padding: 22px 12px;
+    color: #6c757d;
+    text-align: center;
+}
+
+.o_notification_center_item {
+    display: flex;
+    gap: 10px;
+    width: 100%;
+    min-height: 76px;
+    padding: 10px 12px;
+    white-space: normal;
+    border-bottom: 1px solid #eef0f2;
+}
+
+.o_notification_center_item.is-unread {
+    background-color: #f2f7ff;
+}
+
+.o_notification_center_item:hover {
+    background-color: #edf4fb;
+}
+
+.o_notification_center_item_icon {
+    flex: 0 0 28px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    color: #0d6efd;
+}
+
+.o_notification_center_item_body {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+
+.o_notification_center_item_title {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #212529;
+    font-weight: 600;
+    line-height: 1.25;
+}
+
+.o_notification_center_item_message {
+    display: -webkit-box;
+    margin-top: 3px;
+    overflow: hidden;
+    color: #495057;
+    font-size: 13px;
+    line-height: 1.25;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+}
+
+.o_notification_center_item_date {
+    margin-top: 5px;
+    color: #868e96;
+    font-size: 12px;
+}
+
+.o_notification_center_unread_dot {
+    flex: 0 0 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #0d6efd;
+}

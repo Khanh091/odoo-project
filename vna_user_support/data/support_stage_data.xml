@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="stage_vna_support_new" model="vna.support.stage">
+            <field name="name">Mới tiếp nhận</field>
+            <field name="code">new</field>
+            <field name="sequence">10</field>
+            <field name="is_initial" eval="True"/>
+        </record>
+
+        <record id="stage_vna_support_pending" model="vna.support.stage">
+            <field name="name">Đang chờ xử lý</field>
+            <field name="code">pending</field>
+            <field name="sequence">20</field>
+        </record>
+
+        <record id="stage_vna_support_processing" model="vna.support.stage">
+            <field name="name">Đang xử lý</field>
+            <field name="code">processing</field>
+            <field name="sequence">30</field>
+        </record>
+
+        <record id="stage_vna_support_waiting_user" model="vna.support.stage">
+            <field name="name">Chờ người dùng phản hồi</field>
+            <field name="code">waiting_user</field>
+            <field name="sequence">40</field>
+        </record>
+
+        <record id="stage_vna_support_done" model="vna.support.stage">
+            <field name="name">Hoàn thành</field>
+            <field name="code">done</field>
+            <field name="sequence">50</field>
+            <field name="fold" eval="True"/>
+            <field name="is_closed" eval="True"/>
+        </record>
+
+        <record id="stage_vna_support_cancelled" model="vna.support.stage">
+            <field name="name">Đã hủy</field>
+            <field name="code">cancelled</field>
+            <field name="sequence">60</field>
+            <field name="fold" eval="True"/>
+            <field name="is_closed" eval="True"/>
+            <field name="is_cancelled" eval="True"/>
+        </record>
+    </data>
+</odoo>

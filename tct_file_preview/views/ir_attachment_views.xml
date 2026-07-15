@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_attachment_form_inherit_tct_file_preview" model="ir.ui.view">
+        <field name="name">ir.attachment.form.inherit.tct.file.preview</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="base.view_attachment_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//sheet/h1" position="after">
+                <separator string="File Preview"/>
+
+                <div class="o_row align-items-center mb-2">
+                    <field name="can_preview" invisible="1"/>
+                    <field name="preview_url" invisible="1"/>
+
+                    <div class="me-3">
+                        <field name="preview_type"
+                               readonly="1"
+                               nolabel="1"
+                               class="fw-bold"/>
+                    </div>
+
+                    <button name="action_preview_file"
+                            type="object"
+                            string="Preview File"
+                            class="btn btn-primary"
+                            invisible="not can_preview"/>
+
+                    <span class="text-muted" invisible="can_preview">
+                        Preview is not available for this file type.
+                    </span>
+                </div>
+            </xpath>
+
+        </field>
+    </record>
+
+</odoo>

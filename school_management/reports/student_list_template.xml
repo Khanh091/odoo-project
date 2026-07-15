@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="report_student_list">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h2 class="text-center">DANH SACH HOC SINH THEO LOP</h2>
+                        <h3 class="text-center">
+                            <span t-field="o.name"/>
+                        </h3>
+                        <p class="text-center">Nam hoc: <span t-field="o.school_year"/></p>
+
+                        <table class="table table-bordered table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Ma HS</th>
+                                    <th>Ho va ten</th>
+                                    <th>Gioi tinh</th>
+                                    <th>Ngay sinh</th>
+                                    <th>Tuoi</th>
+                                    <th>SDT</th>
+                                    <th>Email</th>
+                                    <th>Trang thai</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr t-foreach="o.student_ids" t-as="student">
+                                    <td><span t-field="student.student_code"/></td>
+                                    <td><span t-field="student.name"/></td>
+                                    <td><span t-field="student.gender"/></td>
+                                    <td><span t-field="student.birth_date"/></td>
+                                    <td><span t-field="student.age"/></td>
+                                    <td><span t-field="student.phone"/></td>
+                                    <td><span t-field="student.email"/></td>
+                                    <td><span t-field="student.status"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <p>Tong so hoc sinh: <strong t-field="o.total_students"/></p>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

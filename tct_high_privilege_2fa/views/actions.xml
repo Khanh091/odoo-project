@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_tct_allowed_ip" model="ir.actions.act_window">
+        <field name="name">Allowed IPs</field>
+        <field name="res_model">tct.allowed.ip</field>
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'active_test': False}</field>
+    </record>
+</odoo>
