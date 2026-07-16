@@ -157,13 +157,14 @@ export const notificationCenterService = {
         bus_service.subscribe(NOTIFICATION_TYPE, (payload) => {
             addOrUpdateNotification(payload);
             state.unreadCount += 1;
+
             notification.add(payload.message || "", {
-                title: payload.title || _t("Thong bao moi"),
+                title: payload.title || _t("Thông báo mới"),
                 type: mapNotificationType(payload.notification_type),
                 sticky: false,
                 buttons: [
                     {
-                        name: _t("Mo"),
+                        name: _t("Mở"),
                         primary: true,
                         onClick: () => openNotification(normalizeNotification(payload)),
                     },

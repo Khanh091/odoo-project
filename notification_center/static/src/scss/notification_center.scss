@@ -37,25 +37,39 @@
 }
 
 .o_notification_center_dropdown {
+    display: flex;
+    flex-direction: column;
     width: 380px;
     max-width: 90vw;
-    max-height: 520px;
+    max-height: calc(100vh - 24px);
     overflow: hidden;
     padding: 0;
 }
 
 .o_notification_center_header,
 .o_notification_center_footer {
+    flex: 0 0 auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 10px 12px;
+    background-color: #fff;
     border-bottom: 1px solid #dee2e6;
 }
 
 .o_notification_center_footer {
     border-top: 1px solid #dee2e6;
     border-bottom: 0;
+}
+
+.o_notification_center_list {
+    flex: 1 1 auto;
+    min-height: 0;
+    max-height: 400px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
 }
 
 .o_notification_center_empty {

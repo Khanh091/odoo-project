@@ -18,35 +18,37 @@
                 </button>
             </div>
 
-            <div t-if="state.loading" class="o_notification_center_empty">
-                Đang tải...
-            </div>
+            <div class="o_notification_center_list">
+                <div t-if="state.loading" class="o_notification_center_empty">
+                    Đang tải...
+                </div>
 
-            <div t-elif="!notifications.length" class="o_notification_center_empty">
-                Không có thông báo
-            </div>
+                <div t-elif="!notifications.length" class="o_notification_center_empty">
+                    Không có thông báo
+                </div>
 
-            <t t-else="">
-                <DropdownItem
-                    t-foreach="notifications"
-                    t-as="notification"
-                    t-key="notification.id"
-                    class="'o_notification_center_item ' + (notification.is_read ? 'is-read' : 'is-unread')"
-                    onSelected="() => this.onNotificationSelected(notification)"
-                >
-                    <div class="o_notification_center_item_icon" t-att-title="getTypeLabel(notification)">
-                        <i t-att-class="getIconClass(notification)"/>
-                    </div>
-                    <div class="o_notification_center_item_body">
-                        <div class="o_notification_center_item_title">
-                            <span t-esc="notification.title"/>
-                            <span t-if="!notification.is_read" class="o_notification_center_unread_dot"/>
+                <t t-else="">
+                    <DropdownItem
+                        t-foreach="notifications"
+                        t-as="notification"
+                        t-key="notification.id"
+                        class="'o_notification_center_item ' + (notification.is_read ? 'is-read' : 'is-unread')"
+                        onSelected="() => this.onNotificationSelected(notification)"
+                    >
+                        <div class="o_notification_center_item_icon" t-att-title="getTypeLabel(notification)">
+                            <i t-att-class="getIconClass(notification)"/>
                         </div>
-                        <div class="o_notification_center_item_message" t-esc="notification.message"/>
-                        <div class="o_notification_center_item_date" t-esc="notification.create_date"/>
-                    </div>
-                </DropdownItem>
-            </t>
+                        <div class="o_notification_center_item_body">
+                            <div class="o_notification_center_item_title">
+                                <span t-esc="notification.title"/>
+                                <span t-if="!notification.is_read" class="o_notification_center_unread_dot"/>
+                            </div>
+                            <div class="o_notification_center_item_message" t-esc="notification.message"/>
+                            <div class="o_notification_center_item_date" t-esc="notification.create_date"/>
+                        </div>
+                    </DropdownItem>
+                </t>
+            </div>
 
             <div class="o_notification_center_footer">
                 <button type="button" class="btn btn-link btn-sm w-100" t-on-click.stop="onOpenAll">
