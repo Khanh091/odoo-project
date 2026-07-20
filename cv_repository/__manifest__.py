@@ -1,34 +1,23 @@
-# -*- coding: utf-8 -*-
 {
-    'name': "cv_repository",
-
-    'summary': "Short (1 phrase/line) summary of the module's purpose",
-
-    'description': """
-Long description of module's purpose
-    """,
-
-    'author': "My Company",
-    'website': "https://www.yourcompany.com",
-
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/15.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
-    'category': 'Uncategorized',
-    'version': '0.1',
-
-    # any module necessary for this one to work correctly
-    'depends': ['base'],
-
-    # always loaded
-    'data': [
-        # 'security/ir.model.access.csv',
-        'views/views.xml',
-        'views/templates.xml',
+    "name": "CV Repository",
+    "version": "17.0.1.0.0",
+    "category": "Human Resources",
+    "summary": "Internal CV and candidate repository for administrators",
+    "depends": ["base", "mail", "cv_ai"],
+    "data": [
+        "security/security.xml",
+        "security/ir.model.access.csv",
+        "data/sequence.xml",
+        "data/server_actions.xml",
+        "wizard/upload_cv_wizard_views.xml",
+        "wizard/reject_candidate_wizard_views.xml",
+        "views/cv_batch_views.xml",
+        "views/cv_document_views.xml",
+        "views/candidate_views.xml",
+        "views/processing_log_views.xml",
+        "views/menus.xml",
     ],
-    # only loaded in demonstration mode
-    'demo': [
-        'demo/demo.xml',
-    ],
+    "installable": True,
+    "application": True,
+    "license": "LGPL-3",
 }
-

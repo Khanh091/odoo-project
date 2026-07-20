@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cv_repository_batch_list" model="ir.ui.view">
+        <field name="name">cv.repository.batch.list</field>
+        <field name="model">cv.repository.batch</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'failed'"
+                  decoration-warning="state == 'partial'"
+                  decoration-success="state == 'completed'"
+                  decoration-info="state == 'processing'">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="state" widget="badge"/>
+                <field name="total_document_count"/>
+                <field name="review_candidate_count"/>
+                <field name="approved_candidate_count"/>
+                <field name="failed_document_count"/>
+                <field name="create_date"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cv_repository_batch_form" model="ir.ui.view">
+        <field name="name">cv.repository.batch.form</field>
+        <field name="model">cv.repository.batch</field>
+        <field name="arch" type="xml">
+            <form string="CV Import Batch">
+                <header>
+                    <button name="action_process_all" type="object" string="Process All"
+                            class="btn-primary"
+                            invisible="state not in ['draft', 'partial', 'failed']"/>
+                    <button name="action_retry_failed" type="object" string="Retry Failed"
+                            invisible="failed_document_count == 0"/>
+                    <button name="action_approve_all" type="object" string="Approve All"
+                            invisible="review_candidate_count == 0"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="draft,processing,review,partial,completed,failed"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_documents" type="object"
+                                class="oe_stat_button" icon="fa-file-text-o">
+                            <field name="total_document_count" widget="statinfo"
+                                   string="Documents"/>
+                        </button>
+                        <button name="action_open_candidates" type="object"
+                                class="oe_stat_button" icon="fa-users">
+                            <field name="review_candidate_count" widget="statinfo"
+                                   string="For Review"/>
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <label for="name"/>
+                        <h1><field name="name"/></h1>
+                        <field name="code"/>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="created_by"/>
+                            <field name="processed_at"/>
+                        </group>
+                        <group>
+                            <field name="uploaded_document_count"/>
+                            <field name="processing_document_count"/>
+                            <field name="failed_document_count"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Documents">
+                            <field name="document_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="candidate_id"/>
+                                    <field name="mimetype"/>
+                                    <field name="retry_count"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Candidates">
+                            <field name="candidate_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="email"/>
+                                    <field name="phone"/>
+                                    <field name="state" widget="badge"/>
+                                    <field name="possible_duplicate_id"/>
+                                </list>
+                            </field>
+                        </page>
+                        <page string="Notes">
+                            <field name="note" placeholder="Internal notes..."/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_cv_repository_batch_search" model="ir.ui.view">
+        <field name="name">cv.repository.batch.search</field>
+        <field name="model">cv.repository.batch</field>
+        <field name="arch" type="xml">
+            <search string="Import Batches">
+                <field name="name"/>
+                <field name="code"/>
+                <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="processing" string="Processing" domain="[('state', '=', 'processing')]"/>
+                <filter name="review" string="Waiting for Review" domain="[('state', '=', 'review')]"/>
+                <filter name="completed" string="Completed" domain="[('state', '=', 'completed')]"/>
+                <filter name="partial" string="Partial" domain="[('state', '=', 'partial')]"/>
+                <filter name="failed" string="Failed" domain="[('state', '=', 'failed')]"/>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_cv_repository_batch" model="ir.actions.act_window">
+        <field name="name">Import Batches</field>
+        <field name="res_model">cv.repository.batch</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_cv_repository_batch_search"/>
+    </record>
+</odoo>

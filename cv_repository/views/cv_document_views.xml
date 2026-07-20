@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_cv_repository_document_list" model="ir.ui.view">
+        <field name="name">cv.repository.document.list</field>
+        <field name="model">cv.repository.document</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state == 'failed'"
+                  decoration-success="state == 'approved'"
+                  decoration-warning="state == 'review'">
+                <field name="name"/>
+                <field name="batch_id"/>
+                <field name="state" widget="badge"/>
+                <field name="candidate_id"/>
+                <field name="mimetype"/>
+                <field name="retry_count"/>
+                <field name="processed_at"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_cv_repository_document_form" model="ir.ui.view">
+        <field name="name">cv.repository.document.form</field>
+        <field name="model">cv.repository.document</field>
+        <field name="arch" type="xml">
+            <form string="CV Document">
+                <header>
+                    <button name="action_process" type="object" string="Process"
+                            class="btn-primary" invisible="state != 'uploaded'"/>
+                    <button name="action_retry" type="object" string="Retry"
+                            class="btn-primary" invisible="state != 'failed'"/>
+                    <button name="action_open_candidate" type="object"
+                            string="Open Candidate" invisible="not candidate_id"/>
+                    <button name="action_download_cv" type="object" string="Download CV"/>
+                    <field name="state" widget="statusbar"
+                           statusbar_visible="uploaded,extracting,parsing,review,approved,rejected,failed"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name"/></h1></div>
+                    <notebook>
+                        <page string="General">
+                            <group>
+                                <group>
+                                    <field name="batch_id"/>
+                                    <field name="attachment_id"/>
+                                    <field name="candidate_id" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="mimetype"/>
+                                    <field name="file_size"/>
+                                    <field name="retry_count"/>
+                                    <field name="processed_at"/>
+                                    <field name="processed_by"/>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Extracted Text" invisible="not extracted_text">
+                            <field name="extracted_text" readonly="1" nolabel="1"/>
+                        </page>
+                        <page string="AI Result" invisible="not ai_result_json">
+                            <field name="ai_result_json" readonly="1" nolabel="1"/>
+                        </page>
+                        <page string="Error" invisible="not error_message">
+                            <field name="error_message" readonly="1" nolabel="1"/>
+                        </page>
+                        <page string="Processing Logs">
+                            <field name="processing_log_ids" readonly="1">
+                                <list>
+                                    <field name="operation"/>
+                                    <field name="status" widget="badge"/>
+                                    <field name="message"/>
+                                    <field name="duration_ms"/>
+                                    <field name="create_date"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_cv_repository_document_search" model="ir.ui.view">
+        <field name="name">cv.repository.document.search</field>
+        <field name="model">cv.repository.document</field>
+        <field name="arch" type="xml">
+            <search string="CV Documents">
+                <field name="name"/>
+                <field name="batch_id"/>
+                <field name="candidate_id"/>
+                <filter name="uploaded" string="Uploaded" domain="[('state', '=', 'uploaded')]"/>
+                <filter name="review" string="Waiting for Review" domain="[('state', '=', 'review')]"/>
+                <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="failed" string="Failed" domain="[('state', '=', 'failed')]"/>
+                <group expand="0" string="Group By">
+                    <filter name="group_batch" string="Batch" context="{'group_by': 'batch_id'}"/>
+                    <filter name="group_state" string="State" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="action_cv_repository_document" model="ir.actions.act_window">
+        <field name="name">CV Documents</field>
+        <field name="res_model">cv.repository.document</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_cv_repository_document_search"/>
+    </record>
+</odoo>

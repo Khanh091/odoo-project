@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_cv_ai_configuration" model="ir.actions.act_window">
+        <field name="name">CV AI Configuration</field>
+        <field name="res_model">res.config.settings</field>
+        <field name="view_mode">form</field>
+        <field name="target">inline</field>
+        <field name="context">{'module': 'cv_ai'}</field>
+    </record>
+
+    <menuitem id="menu_cv_repository_root" name="CV Repository"
+              sequence="35" groups="cv_repository.group_cv_repository_admin"/>
+    <menuitem id="menu_cv_repository_import" name="Import CV"
+              parent="menu_cv_repository_root"
+              action="action_cv_repository_upload_wizard" sequence="10"
+              groups="cv_repository.group_cv_repository_admin"/>
+    <menuitem id="menu_cv_repository_batches" name="Import Batches"
+              parent="menu_cv_repository_root" action="action_cv_repository_batch"
+              sequence="20" groups="cv_repository.group_cv_repository_admin"/>
+    <menuitem id="menu_cv_repository_documents" name="CV Documents"
+              parent="menu_cv_repository_root" action="action_cv_repository_document"
+              sequence="30" groups="cv_repository.group_cv_repository_admin"/>
+    <menuitem id="menu_cv_repository_candidates" name="Candidates"
+              parent="menu_cv_repository_root" action="action_cv_repository_candidate"
+              sequence="40" groups="cv_repository.group_cv_repository_admin"/>
+    <menuitem id="menu_cv_repository_logs" name="Processing Logs"
+              parent="menu_cv_repository_root" action="action_cv_repository_processing_log"
+              sequence="50" groups="cv_repository.group_cv_repository_admin"/>
+    <menuitem id="menu_cv_repository_configuration" name="Configuration"
+              parent="menu_cv_repository_root" action="action_cv_ai_configuration"
+              sequence="60" groups="base.group_system"/>
+</odoo>

@@ -1,2 +1,7 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_cv_repository_cv_repository,cv_repository.cv_repository,model_cv_repository_cv_repository,base.group_user,1,1,1,1
+access_cv_repository_batch_admin,CV repository batch admin,model_cv_repository_batch,cv_repository.group_cv_repository_admin,1,1,1,1
+access_cv_repository_document_admin,CV repository document admin,model_cv_repository_document,cv_repository.group_cv_repository_admin,1,1,1,1
+access_cv_repository_candidate_admin,CV repository candidate admin,model_cv_repository_candidate,cv_repository.group_cv_repository_admin,1,1,1,1
+access_cv_repository_processing_log_admin,CV repository processing log admin,model_cv_repository_processing_log,cv_repository.group_cv_repository_admin,1,1,1,1
+access_cv_repository_upload_wizard_admin,CV repository upload wizard admin,model_cv_repository_upload_wizard,cv_repository.group_cv_repository_admin,1,1,1,1
+access_cv_repository_reject_wizard_admin,CV repository reject wizard admin,model_cv_repository_reject_candidate_wizard,cv_repository.group_cv_repository_admin,1,1,1,1
