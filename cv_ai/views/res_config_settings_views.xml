@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="res_config_settings_view_form_cv_ai" model="ir.ui.view">
+        <field name="name">res.config.settings.view.form.cv.ai</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                <app string="CV AI" name="cv_ai">
+                    <block title="Ollama">
+                        <setting string="Ollama URL"
+                                 help="Base URL of the Ollama server.">
+                            <field name="cv_ai_ollama_base_url"/>
+                        </setting>
+                        <setting string="Ollama Model"
+                                 help="Model used to extract candidate data.">
+                            <field name="cv_ai_ollama_model"/>
+                        </setting>
+                        <setting string="Request Timeout"
+                                 help="Maximum duration of an Ollama request in seconds.">
+                            <field name="cv_ai_request_timeout"/>
+                        </setting>
+                        <setting string="Maximum Text Length"
+                                 help="Text longer than this value is truncated before AI processing.">
+                            <field name="cv_ai_max_text_length"/>
+                        </setting>
+                    </block>
+                </app>
+            </xpath>
+        </field>
+    </record>
+</odoo>
