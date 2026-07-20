@@ -1,0 +1,43 @@
+﻿# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# Odoo specific
+*.log
+*.pid
+.odoo/
+.odoorc
+filestore/
+sessions/
+addons_path/
+
+# Python packaging
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# IDE & Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Backup & temp files
+*.bak
+*.tmp
+*.xml~*
+*.csv~*
