@@ -6,11 +6,6 @@ class CvAiService(models.AbstractModel):
     _description = "CV AI Service"
 
     def parse_attachment(self, attachment, before_ai_callback=None):
-        """Extract and normalize candidate information from an attachment.
-
-        The optional callback runs after text extraction and immediately before
-        the provider request. Existing callers only need to pass the attachment.
-        """
         text = self.env["cv.ai.text.extractor.service"].extract_attachment(
             attachment
         )

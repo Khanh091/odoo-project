@@ -109,7 +109,6 @@ class CvRepositoryDocument(models.Model):
 
     @api.model
     def cron_process_queued_documents(self, limit=1):
-        """Process queued CV documents sequentially in the cron worker."""
         processing_limit = max(int(limit or 1), 1)
         documents = self.search(
             [("state", "=", "queued")],
@@ -130,6 +129,7 @@ class CvRepositoryDocument(models.Model):
             with self.env.cr.savepoint():
                 self._validate_attachment()
                 self.write({"error_message": False, "state": "extracting"})
+                self._mark_as_parsing()
                 result = self.env["cv.ai.service"].parse_attachment(
                     self.attachment_id,
                     before_ai_callback=self._mark_as_parsing,

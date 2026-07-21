@@ -33,7 +33,6 @@ class CvResultValidator(models.AbstractModel):
     _description = "CV AI Result Validator"
 
     def validate_candidate(self, candidate_data):
-        """Validate and normalize candidate data returned by an AI provider."""
         if not isinstance(candidate_data, dict):
             raise ValidationError(_("AI candidate data must be a JSON object."))
 

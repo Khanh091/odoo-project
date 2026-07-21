@@ -7,7 +7,6 @@ class CandidateCreationService(models.AbstractModel):
     _description = "Candidate Creation Service"
 
     def create_or_update_from_ai_result(self, batch, document, ai_result):
-        """Create or update the repository candidate for one parsed CV."""
         batch.ensure_one()
         document.ensure_one()
         if not isinstance(ai_result, dict) or not ai_result.get("full_name"):
