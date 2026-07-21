@@ -4,7 +4,7 @@
         <field name="name">cv.repository.batch.list</field>
         <field name="model">cv.repository.batch</field>
         <field name="arch" type="xml">
-            <list decoration-danger="state == 'failed'"
+            <tree decoration-danger="state == 'failed'"
                   decoration-warning="state == 'partial'"
                   decoration-success="state == 'completed'"
                   decoration-info="state == 'processing'">
@@ -16,7 +16,7 @@
                 <field name="approved_candidate_count"/>
                 <field name="failed_document_count"/>
                 <field name="create_date"/>
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -68,24 +68,24 @@
                     <notebook>
                         <page string="Documents">
                             <field name="document_ids" readonly="1">
-                                <list>
+                                <tree>
                                     <field name="name"/>
                                     <field name="state" widget="badge"/>
                                     <field name="candidate_id"/>
                                     <field name="mimetype"/>
                                     <field name="retry_count"/>
-                                </list>
+                                </tree>
                             </field>
                         </page>
                         <page string="Candidates">
                             <field name="candidate_ids" readonly="1">
-                                <list>
+                                <tree>
                                     <field name="name"/>
                                     <field name="email"/>
                                     <field name="phone"/>
                                     <field name="state" widget="badge"/>
                                     <field name="possible_duplicate_id"/>
-                                </list>
+                                </tree>
                             </field>
                         </page>
                         <page string="Notes">
@@ -118,7 +118,7 @@
     <record id="action_cv_repository_batch" model="ir.actions.act_window">
         <field name="name">Import Batches</field>
         <field name="res_model">cv.repository.batch</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="view_cv_repository_batch_search"/>
     </record>
 </odoo>

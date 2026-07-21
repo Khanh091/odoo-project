@@ -4,7 +4,7 @@
         <field name="name">cv.repository.candidate.list</field>
         <field name="model">cv.repository.candidate</field>
         <field name="arch" type="xml">
-            <list decoration-warning="state == 'review'"
+            <tree decoration-warning="state == 'review'"
                   decoration-success="state == 'approved'"
                   decoration-danger="state == 'rejected'">
                 <field name="name"/>
@@ -16,7 +16,7 @@
                 <field name="possible_duplicate_id"/>
                 <field name="batch_id"/>
                 <field name="approved_at"/>
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -141,7 +141,7 @@
     <record id="action_cv_repository_candidate" model="ir.actions.act_window">
         <field name="name">Candidates</field>
         <field name="res_model">cv.repository.candidate</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="view_cv_repository_candidate_search"/>
     </record>
 </odoo>

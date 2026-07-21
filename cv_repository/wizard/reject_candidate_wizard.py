@@ -8,6 +8,9 @@ class RejectCandidateWizard(models.TransientModel):
 
     candidate_ids = fields.Many2many(
         "cv.repository.candidate",
+        "cv_repo_reject_wizard_candidate_rel",
+        "wizard_id",
+        "candidate_id",
         required=True,
         default=lambda self: self._default_candidate_ids(),
     )

@@ -4,7 +4,7 @@
         <field name="name">cv.repository.document.list</field>
         <field name="model">cv.repository.document</field>
         <field name="arch" type="xml">
-            <list decoration-danger="state == 'failed'"
+            <tree decoration-danger="state == 'failed'"
                   decoration-success="state == 'approved'"
                   decoration-warning="state == 'review'">
                 <field name="name"/>
@@ -14,7 +14,7 @@
                 <field name="mimetype"/>
                 <field name="retry_count"/>
                 <field name="processed_at"/>
-            </list>
+            </tree>
         </field>
     </record>
 
@@ -64,13 +64,13 @@
                         </page>
                         <page string="Processing Logs">
                             <field name="processing_log_ids" readonly="1">
-                                <list>
+                                <tree>
                                     <field name="operation"/>
                                     <field name="status" widget="badge"/>
                                     <field name="message"/>
                                     <field name="duration_ms"/>
                                     <field name="create_date"/>
-                                </list>
+                                </tree>
                             </field>
                         </page>
                     </notebook>
@@ -103,7 +103,7 @@
     <record id="action_cv_repository_document" model="ir.actions.act_window">
         <field name="name">CV Documents</field>
         <field name="res_model">cv.repository.document</field>
-        <field name="view_mode">list,form</field>
+        <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="view_cv_repository_document_search"/>
     </record>
 </odoo>
