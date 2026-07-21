@@ -32,6 +32,7 @@ class CvRepositoryBatch(models.Model):
     )
     total_document_count = fields.Integer(compute="_compute_counts")
     uploaded_document_count = fields.Integer(compute="_compute_counts")
+    queued_document_count = fields.Integer(compute="_compute_counts")
     processing_document_count = fields.Integer(compute="_compute_counts")
     review_document_count = fields.Integer(compute="_compute_counts")
     approved_document_count = fields.Integer(compute="_compute_counts")
@@ -65,6 +66,7 @@ class CvRepositoryBatch(models.Model):
             candidate_states = batch.candidate_ids.mapped("state")
             batch.total_document_count = len(document_states)
             batch.uploaded_document_count = document_states.count("uploaded")
+            batch.queued_document_count = document_states.count("queued")
             batch.processing_document_count = sum(
                 state in ("extracting", "parsing") for state in document_states
             )
@@ -83,15 +85,13 @@ class CvRepositoryBatch(models.Model):
             )
             if not documents:
                 raise UserError(_("There are no uploaded or failed CVs to process."))
-            batch.state = "processing"
             for document in documents:
                 is_retry = document.state == "failed"
-                with self.env.cr.savepoint():
-                    document._process_document(
-                        raise_on_error=False,
-                        is_retry=is_retry,
-                    )
-            batch.write({"processed_at": fields.Datetime.now()})
+                document._queue_for_processing(
+                    is_retry=is_retry,
+                    trigger_cron=False,
+                )
+            documents._trigger_queue_cron()
             batch._update_state()
         return True
 
@@ -102,13 +102,12 @@ class CvRepositoryBatch(models.Model):
             )
             if not failed_documents:
                 raise UserError(_("There are no failed CVs to retry."))
-            batch.state = "processing"
             for document in failed_documents:
-                with self.env.cr.savepoint():
-                    document._process_document(
-                        raise_on_error=False,
-                        is_retry=True,
-                    )
+                document._queue_for_processing(
+                    is_retry=True,
+                    trigger_cron=False,
+                )
+            failed_documents._trigger_queue_cron()
             batch._update_state()
         return True
 
@@ -143,11 +142,16 @@ class CvRepositoryBatch(models.Model):
         for batch in self:
             states = batch.document_ids.mapped("state")
             candidate_states = batch.candidate_ids.mapped("state")
-            if any(state in ("extracting", "parsing") for state in states):
+            if any(
+                state in ("queued", "extracting", "parsing")
+                for state in states
+            ):
                 new_state = "processing"
             elif states and all(state == "failed" for state in states):
                 new_state = "failed"
-            elif "failed" in states and candidate_states:
+            elif "failed" in states and any(
+                state in ("review", "approved", "rejected") for state in states
+            ):
                 new_state = "partial"
             elif "review" in candidate_states:
                 new_state = "review"

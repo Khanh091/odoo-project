@@ -5,8 +5,9 @@
         <field name="model">cv.repository.document</field>
         <field name="arch" type="xml">
             <tree decoration-danger="state == 'failed'"
-                  decoration-success="state == 'approved'"
-                  decoration-warning="state == 'review'">
+                  decoration-info="state == 'queued'"
+                  decoration-warning="state in ['extracting', 'parsing']"
+                  decoration-success="state in ['review', 'approved']">
                 <field name="name"/>
                 <field name="batch_id"/>
                 <field name="state" widget="badge"/>
@@ -24,15 +25,15 @@
         <field name="arch" type="xml">
             <form string="CV Document">
                 <header>
-                    <button name="action_process" type="object" string="Process"
+                    <button name="action_process" type="object" string="Queue Processing"
                             class="btn-primary" invisible="state != 'uploaded'"/>
-                    <button name="action_retry" type="object" string="Retry"
+                    <button name="action_retry" type="object" string="Queue Retry"
                             class="btn-primary" invisible="state != 'failed'"/>
                     <button name="action_open_candidate" type="object"
                             string="Open Candidate" invisible="not candidate_id"/>
                     <button name="action_download_cv" type="object" string="Download CV"/>
                     <field name="state" widget="statusbar"
-                           statusbar_visible="uploaded,extracting,parsing,review,approved,rejected,failed"/>
+                           statusbar_visible="uploaded,queued,extracting,parsing,review,approved,rejected,failed"/>
                 </header>
                 <sheet>
                     <div class="oe_title"><h1><field name="name"/></h1></div>
@@ -89,6 +90,11 @@
                 <field name="batch_id"/>
                 <field name="candidate_id"/>
                 <filter name="uploaded" string="Uploaded" domain="[('state', '=', 'uploaded')]"/>
+                <filter name="queued" string="Queued" domain="[('state', '=', 'queued')]"/>
+                <filter name="extracting" string="Extracting Text"
+                        domain="[('state', '=', 'extracting')]"/>
+                <filter name="parsing" string="Parsing with AI"
+                        domain="[('state', '=', 'parsing')]"/>
                 <filter name="review" string="Waiting for Review" domain="[('state', '=', 'review')]"/>
                 <filter name="approved" string="Approved" domain="[('state', '=', 'approved')]"/>
                 <filter name="failed" string="Failed" domain="[('state', '=', 'failed')]"/>

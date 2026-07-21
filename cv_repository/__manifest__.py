@@ -9,6 +9,7 @@
         "security/ir.model.access.csv",
         "data/sequence.xml",
         "data/server_actions.xml",
+        "data/cron.xml",
         "wizard/upload_cv_wizard_views.xml",
         "wizard/reject_candidate_wizard_views.xml",
         "views/cv_batch_views.xml",

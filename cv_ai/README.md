@@ -9,7 +9,7 @@ candidate business records.
 Open Settings and configure the **CV AI** section:
 
 - Ollama URL (default `http://localhost:11434`)
-- Model (default `qwen3:8b`)
+- Model (default `qwen3:1.7b`)
 - Request timeout (default `120` seconds)
 - Maximum text length (default `50000` characters)
 

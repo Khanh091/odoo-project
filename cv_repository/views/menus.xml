@@ -9,6 +9,7 @@
     </record>
 
     <menuitem id="menu_cv_repository_root" name="CV Repository"
+              action="action_cv_repository_batch"
               sequence="35" groups="cv_repository.group_cv_repository_admin"/>
     <menuitem id="menu_cv_repository_import" name="Import CV"
               parent="menu_cv_repository_root"

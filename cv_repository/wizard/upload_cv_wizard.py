@@ -26,7 +26,14 @@ class UploadCvWizard(models.TransientModel):
             self.note,
         )
         if self.process_immediately:
-            batch.action_process_all()
+            batch.document_ids.write(
+                {
+                    "state": "queued",
+                    "error_message": False,
+                }
+            )
+            batch._update_state()
+            batch.document_ids._trigger_queue_cron()
         return {
             "type": "ir.actions.act_window",
             "name": _("CV Import Batch"),

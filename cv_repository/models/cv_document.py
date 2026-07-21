@@ -2,7 +2,7 @@ import json
 import logging
 import time
 
-from odoo import _, fields, models
+from odoo import _, api, fields, models
 from odoo.exceptions import MissingError, UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
@@ -27,8 +27,9 @@ class CvRepositoryDocument(models.Model):
     state = fields.Selection(
         [
             ("uploaded", "Uploaded"),
-            ("extracting", "Extracting"),
-            ("parsing", "Parsing"),
+            ("queued", "Queued"),
+            ("extracting", "Extracting Text"),
+            ("parsing", "Parsing with AI"),
             ("review", "Waiting for Review"),
             ("approved", "Approved"),
             ("rejected", "Rejected"),
@@ -53,17 +54,17 @@ class CvRepositoryDocument(models.Model):
 
     def action_process(self):
         self.ensure_one()
-        success = self._process_document(raise_on_error=False)
-        if success:
-            return self.action_open_candidate()
+        if self.state != "uploaded":
+            raise UserError(_("Only uploaded CV documents can be queued."))
+        self._queue_for_processing()
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("CV processing failed"),
-                "message": self.error_message,
-                "type": "danger",
-                "sticky": True,
+                "title": _("CV queued"),
+                "message": _("The CV will be processed by the scheduled job."),
+                "type": "success",
+                "sticky": False,
             },
         }
 
@@ -71,21 +72,58 @@ class CvRepositoryDocument(models.Model):
         self.ensure_one()
         if self.state != "failed":
             raise UserError(_("Only failed CV documents can be retried."))
-        success = self._process_document(raise_on_error=False, is_retry=True)
-        if success:
-            return self.action_open_candidate()
+        self._queue_for_processing(is_retry=True)
         return {
             "type": "ir.actions.client",
             "tag": "display_notification",
             "params": {
-                "title": _("CV retry failed"),
-                "message": self.error_message,
-                "type": "danger",
-                "sticky": True,
+                "title": _("CV retry queued"),
+                "message": _("The CV retry will run in the background."),
+                "type": "success",
+                "sticky": False,
             },
         }
 
-    def _process_document(self, raise_on_error=False, is_retry=False):
+    def _queue_for_processing(self, is_retry=False, trigger_cron=True):
+        self.ensure_one()
+        self._validate_attachment()
+        values = {
+            "state": "queued",
+            "error_message": False,
+        }
+        if is_retry:
+            values["retry_count"] = self.retry_count + 1
+        self.write(values)
+        self.batch_id._update_state()
+        if trigger_cron:
+            self._trigger_queue_cron()
+
+    @api.model
+    def _trigger_queue_cron(self):
+        cron = self.env.ref(
+            "cv_repository.ir_cron_process_queued_cv_documents",
+            raise_if_not_found=False,
+        )
+        if cron:
+            cron._trigger()
+
+    @api.model
+    def cron_process_queued_documents(self, limit=1):
+        """Process queued CV documents sequentially in the cron worker."""
+        processing_limit = max(int(limit or 1), 1)
+        documents = self.search(
+            [("state", "=", "queued")],
+            order="create_date asc, id asc",
+            limit=processing_limit,
+        )
+        for document in documents:
+            with self.env.cr.savepoint():
+                document._process_document(raise_on_error=False)
+        if self.search_count([("state", "=", "queued")], limit=1):
+            self._trigger_queue_cron()
+        return True
+
+    def _process_document(self, raise_on_error=False):
         self.ensure_one()
         started_at = time.monotonic()
         try:
@@ -93,9 +131,9 @@ class CvRepositoryDocument(models.Model):
                 self._validate_attachment()
                 self.write({"error_message": False, "state": "extracting"})
                 result = self.env["cv.ai.service"].parse_attachment(
-                    self.attachment_id
+                    self.attachment_id,
+                    before_ai_callback=self._mark_as_parsing,
                 )
-                self.state = "parsing"
                 candidate = self.env[
                     "cv.repository.candidate.creation.service"
                 ].create_or_update_from_ai_result(
@@ -114,13 +152,11 @@ class CvRepositoryDocument(models.Model):
                     "processed_at": fields.Datetime.now(),
                     "processed_by": self.env.user.id,
                 }
-                if is_retry:
-                    values["retry_count"] = self.retry_count + 1
                 self.write(values)
             duration_ms = int((time.monotonic() - started_at) * 1000)
             self.env["cv.repository.processing.log"].create_entry(
                 self,
-                "retry" if is_retry else "create_candidate",
+                "retry" if self.retry_count else "create_candidate",
                 "success",
                 _("CV processed successfully."),
                 candidate_id=candidate.id,
@@ -128,40 +164,43 @@ class CvRepositoryDocument(models.Model):
                 model_name=result.get("model"),
                 duration_ms=duration_ms,
             )
+            self.batch_id.processed_at = fields.Datetime.now()
             self.batch_id._update_state()
             return True
         except (MissingError, UserError, ValidationError) as error:
             _logger.exception("CV document %s processing failed", self.id)
-            self._record_failure(error, started_at, is_retry)
+            self._record_failure(error, started_at)
             if raise_on_error:
                 raise
             return False
         except (json.JSONDecodeError, TypeError, ValueError) as error:
             _logger.exception("CV document %s processing failed", self.id)
-            self._record_failure(error, started_at, is_retry)
+            self._record_failure(error, started_at)
             if raise_on_error:
                 raise UserError(_("The CV could not be processed.")) from error
             return False
         except Exception as error:
             _logger.exception("Unexpected CV document %s processing failure", self.id)
-            self._record_failure(error, started_at, is_retry)
+            self._record_failure(error, started_at)
             if raise_on_error:
                 raise UserError(_("The CV could not be processed.")) from error
             return False
 
-    def _record_failure(self, error, started_at, is_retry):
+    def _mark_as_parsing(self):
+        self.ensure_one()
+        self.state = "parsing"
+
+    def _record_failure(self, error, started_at):
         values = {
             "state": "failed",
             "error_message": str(error) or _("Unknown CV processing error."),
             "processed_at": fields.Datetime.now(),
             "processed_by": self.env.user.id,
         }
-        if is_retry:
-            values["retry_count"] = self.retry_count + 1
         self.write(values)
         self.env["cv.repository.processing.log"].create_entry(
             self,
-            "retry" if is_retry else "parse",
+            "retry" if self.retry_count else "parse",
             "failed",
             _("CV processing failed: %s") % values["error_message"],
             duration_ms=int((time.monotonic() - started_at) * 1000),

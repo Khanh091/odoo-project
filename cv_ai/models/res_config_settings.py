@@ -13,7 +13,7 @@ class ResConfigSettings(models.TransientModel):
     cv_ai_ollama_model = fields.Char(
         string="Ollama Model",
         config_parameter="cv_ai.ollama_model",
-        default="qwen3:8b",
+        default="qwen3:1.7b",
         required=True,
     )
     cv_ai_request_timeout = fields.Integer(

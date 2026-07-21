@@ -30,19 +30,30 @@ class OllamaProvider(models.AbstractModel):
         base_url = parameters.get_param(
             "cv_ai.ollama_base_url", "http://localhost:11434"
         ).rstrip("/")
-        model_name = parameters.get_param("cv_ai.ollama_model", "qwen3:8b")
+        model_name = parameters.get_param("cv_ai.ollama_model", "qwen3:1.7b")
         timeout = self._positive_integer(
-            parameters.get_param("cv_ai.request_timeout", "120"), 120
+            parameters.get_param("cv_ai.request_timeout", "300"), 300
         )
         payload = {
             "model": model_name,
             "stream": False,
+            "think": False,
+            "keep_alive": "30m",
             "format": CANDIDATE_JSON_SCHEMA,
             "messages": [
-                {"role": "system", "content": SYSTEM_PROMPT},
-                {"role": "user", "content": cv_text},
+                {
+                    "role": "system",
+                    "content": SYSTEM_PROMPT,
+                },
+                {
+                    "role": "user",
+                    "content": cv_text,
+                },
             ],
-            "options": {"temperature": 0},
+            "options": {
+                "temperature": 0,
+                "num_predict": 2048,
+            },
         }
         try:
             response = requests.post(

@@ -61,25 +61,25 @@
                             <field name="summary" nolabel="1"/>
                         </page>
                         <page string="Skills">
-                            <field name="skill_text" nolabel="1"/>
+                            <field name="skill_display" readonly="1" nolabel="1"/>
                         </page>
                         <page string="Education">
-                            <field name="education_json" readonly="1" nolabel="1"/>
+                            <field name="education_display" readonly="1" nolabel="1"/>
                         </page>
                         <page string="Experience">
-                            <field name="experience_json" readonly="1" nolabel="1"/>
+                            <field name="experience_display" readonly="1" nolabel="1"/>
                         </page>
                         <page string="Certifications">
-                            <field name="certification_json" readonly="1" nolabel="1"/>
+                            <field name="certification_display" readonly="1" nolabel="1"/>
                         </page>
                         <page string="Languages">
-                            <field name="language_json" readonly="1" nolabel="1"/>
+                            <field name="language_display" readonly="1" nolabel="1"/>
                         </page>
                         <page string="Links">
-                            <field name="link_json" readonly="1" nolabel="1"/>
+                            <field name="link_display" readonly="1" nolabel="1"/>
                         </page>
                         <page string="Warnings">
-                            <field name="warning_json" readonly="1" nolabel="1"/>
+                            <field name="warning_display" readonly="1" nolabel="1"/>
                         </page>
                         <page string="Source CV">
                             <group>

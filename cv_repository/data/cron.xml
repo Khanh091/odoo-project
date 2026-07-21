@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="ir_cron_process_queued_cv_documents" model="ir.cron">
+        <field name="name">CV Repository: Process Queued Documents</field>
+        <field name="model_id" ref="model_cv_repository_document"/>
+        <field name="state">code</field>
+        <field name="code">model.cron_process_queued_documents(limit=1)</field>
+        <field name="user_id" ref="base.user_root"/>
+        <field name="interval_number">1</field>
+        <field name="interval_type">minutes</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

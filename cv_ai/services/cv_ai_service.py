@@ -5,8 +5,12 @@ class CvAiService(models.AbstractModel):
     _name = "cv.ai.service"
     _description = "CV AI Service"
 
-    def parse_attachment(self, attachment):
-        """Extract and normalize candidate information from an attachment."""
+    def parse_attachment(self, attachment, before_ai_callback=None):
+        """Extract and normalize candidate information from an attachment.
+
+        The optional callback runs after text extraction and immediately before
+        the provider request. Existing callers only need to pass the attachment.
+        """
         text = self.env["cv.ai.text.extractor.service"].extract_attachment(
             attachment
         )
@@ -16,6 +20,8 @@ class CvAiService(models.AbstractModel):
         )
         truncated = len(text) > max_length
         provider_text = text[:max_length] if truncated else text
+        if before_ai_callback:
+            before_ai_callback()
         candidate_data = self.env["cv.ai.ollama.provider"].extract_candidate(
             provider_text
         )
@@ -31,7 +37,7 @@ class CvAiService(models.AbstractModel):
                 "raw_text": text,
                 "provider": "ollama",
                 "model": parameters.get_param(
-                    "cv_ai.ollama_model", "qwen3:8b"
+                    "cv_ai.ollama_model", "qwen3:1.7b"
                 ),
             }
         )
